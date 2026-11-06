@@ -31,9 +31,14 @@ import { mensagens, whatsappLink } from '../data/site';
     gap: 1.5rem;
     padding: clamp(1.75rem, 5vw, 3rem);
     border-radius: var(--raio-grande);
-    background: var(--gradiente-laranja);
-    color: var(--preto);
+    background: var(--gradiente-laranja-invertido);
+    color: var(--branco);
     box-shadow: var(--sombra);
+  }
+
+  /* O preto dos trechos em negrito é para parágrafos em cinza */
+  .conteudo strong {
+    color: inherit;
   }
 
   .acoes {

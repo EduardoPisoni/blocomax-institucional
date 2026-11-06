@@ -24,7 +24,6 @@ import IconeSeta from '../components/IconeSeta.astro';
 import IlustracaoConstrucao from '../components/IlustracaoConstrucao.astro';
 import IlustracaoTerreno from '../components/IlustracaoTerreno.astro';
 import Obras from '../components/Obras.astro';
-import Pendente from '../components/Pendente.astro';
 import SeloIcone from '../components/SeloIcone.astro';
 import Servicos from '../components/Servicos.astro';
 import Sobre from '../components/Sobre.astro';
@@ -503,10 +502,6 @@ const fotosComImagem = [
         <h2 id="titulo-etiquetas">Etiquetas e marcadores</h2>
         <div class="linha">
           <figure>
-            <Pendente>a confirmar</Pendente>
-            <figcaption><code>Pendente.astro</code>: dado que falta confirmar</figcaption>
-          </figure>
-          <figure>
             <span class="etiqueta">Dados ilustrativos</span>
             <figcaption>Etiqueta dos projetos com dados fictícios</figcaption>
           </figure>
@@ -933,6 +928,7 @@ const fotosComImagem = [
   }
 
   .link-faixa {
+    color: var(--branco);
     font-size: 1rem;
     font-weight: 600;
     text-underline-offset: 0.3em;

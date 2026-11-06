@@ -36,7 +36,7 @@ const dadosEstruturados = {
     addressRegion: 'RS',
     addressCountry: 'BR',
   },
-  areaServed: cidades.filter((cidade) => !cidade.pendente).map((cidade) => cidade.nome),
+  areaServed: cidades,
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: empresa.horarioSchema.dias,

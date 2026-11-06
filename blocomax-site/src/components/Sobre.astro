@@ -1,6 +1,4 @@
 ---
-import EspacoFoto from './EspacoFoto.astro';
-import Pendente from './Pendente.astro';
 import { empresa } from '../data/site';
 ---
 <section id="sobre" class="secao" aria-labelledby="titulo-sobre">
@@ -14,16 +12,23 @@ import { empresa } from '../data/site';
       </p>
       <p>
         A empresa é conduzida pelos <strong>sócios André e Nedir</strong>, que
-        somam <Pendente>[X anos, a confirmar]</Pendente> de experiência na construção. A equipe é unida e
+        somam mais de 20 anos de experiência na construção. A equipe é unida e
         capacitada, e <strong>quem contrata sabe com quem está falando</strong> do início ao fim da obra.
       </p>
       <p>
         Nosso trabalho já foi reconhecido em votação
-        popular: <Pendente>[prêmios e anos, a confirmar]</Pendente>.
+        popular: <strong>Melhores do Ano 2024 na categoria Construtora</strong>.
       </p>
       <p><a class="link-seta" href="/contato">Fale com a nossa equipe</a></p>
     </div>
-    <EspacoFoto legenda="Foto dos sócios e da equipe" />
+    <img
+      class="foto"
+      src="/fotos/socios.webp"
+      alt="Os sócios André e Nedir, com a camisa polo da Blocomax, segurando o certificado Melhores do Ano 2024"
+      width="1440"
+      height="1440"
+      loading="lazy"
+    />
   </div>
 </section>
 
@@ -46,6 +51,16 @@ import { empresa } from '../data/site';
 
   .texto .link-seta {
     color: var(--preto);
+  }
+
+  /* Corta a parede vazia acima dos sócios e mantém os rostos e o certificado */
+  .foto {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra);
+    object-fit: cover;
+    object-position: center 66%;
   }
 
   @media (min-width: 60rem) {

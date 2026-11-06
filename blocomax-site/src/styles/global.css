@@ -13,8 +13,9 @@
   --branco: #fff;
 
   /* Gradientes: o comentário indica a cor do texto. Contraste mínimo medido em toda a transição */
-  --gradiente-laranja: linear-gradient(100deg, #ff9d1f, #ff8a00 45%, #e8690a); /* texto preto, 5,7:1. Faixas de destaque e botão primário */
-  --gradiente-laranja-hover: linear-gradient(100deg, #ff8a00, #e8690a); /* texto preto, 5,7:1. Mouse sobre o botão primário */
+  --gradiente-laranja: linear-gradient(100deg, #ff9d1f, #ff8a00 45%, #e8690a); /* texto preto, 5,7:1. No botão primário o texto é branco por escolha da marca: de 2,1:1 a 3,2:1 */
+  --gradiente-laranja-invertido: linear-gradient(280deg, #ff9d1f, #ff8a00 45%, #e8690a); /* texto preto, 5,7:1. Atalhos do hero. Na faixa de orçamento o texto é branco por escolha da marca: de 2,1:1 a 3,2:1 */
+  --gradiente-laranja-hover: linear-gradient(100deg, #ff8a00, #e8690a); /* texto branco, de 2,4:1 a 3,2:1, por escolha da marca. Mouse sobre o botão primário */
   --gradiente-ambar: linear-gradient(100deg, #ffc24d, #ff9d1f 50%, #ff8a00); /* texto preto, 7,8:1. Destaque mais claro e luminoso */
   --gradiente-creme: linear-gradient(100deg, #fff3e0, #ffe3bd); /* texto preto, 14,9:1. Fundo suave para cards e avisos */
   --gradiente-terracota: linear-gradient(100deg, #bf5700, #a84c00 50%, #8f4100); /* texto branco, 4,6:1. Laranja queimado, quando o texto precisa ser branco */
@@ -44,6 +45,7 @@
   --sombra-pequena: 0 1px 2px rgb(20 20 20 / 0.12), 0 2px 6px rgb(20 20 20 / 0.1); /* botões e cabeçalho */
   --sombra: 0 2px 4px rgb(20 20 20 / 0.06), 0 8px 24px rgb(20 20 20 / 0.1); /* cards e fotos */
   --sombra-grande: 0 4px 8px rgb(20 20 20 / 0.1), 0 12px 32px rgb(20 20 20 / 0.18); /* itens flutuantes */
+  --sombra-destaque: 0 8px 16px rgb(20 20 20 / 0.14), 0 24px 56px rgb(20 20 20 / 0.26); /* cards de projetos com o mouse sobre */
 
   --transicao: 0.2s ease-out; /* efeitos de mouse sobre */
 }
@@ -175,16 +177,20 @@ a {
   text-underline-offset: 0.45em;
 }
 
-/* Card que sobe com o mouse sobre. Movimento só com mouse e sem redução de movimento */
+/*
+ * Card que sobe com o mouse sobre. Movimento só com mouse e sem redução de movimento.
+ * Para mudar a sombra de um card, use estas variáveis: um box-shadow no componente
+ * tem a mesma força do :hover daqui e anularia o efeito.
+ */
 .card-elevavel {
   position: relative;
-  box-shadow: var(--sombra);
+  box-shadow: var(--card-sombra, var(--sombra));
   transition: box-shadow var(--transicao), translate var(--transicao);
 }
 
 @media (hover: hover) {
   .card-elevavel:hover {
-    box-shadow: var(--sombra-grande);
+    box-shadow: var(--card-sombra-hover, var(--sombra-grande));
   }
 }
 

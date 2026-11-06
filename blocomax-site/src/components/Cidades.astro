@@ -1,25 +1,19 @@
 ---
-import Pendente from './Pendente.astro';
+import BotaoWhatsapp from './BotaoWhatsapp.astro';
 import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
 ---
 <section id="cidades" class="secao secao--clara" aria-labelledby="titulo-cidades">
   <div class="container grade">
     <div>
       <h2 id="titulo-cidades">Onde atendemos</h2>
-      <p class="apoio">
-        A Blocomax fica em <strong>{empresa.cidade}</strong> e atende a região. Sua cidade não está
-        na lista? <a href={whatsappLink(mensagens.geral)} target="_blank" rel="noopener">Pergunte pelo WhatsApp<span class="so-leitor"> (abre em nova aba)</span></a>.
-      </p>
+      <p class="apoio">A Blocomax fica em <strong>{empresa.cidade}</strong> e atende a região.</p>
+      <div class="fora-da-lista">
+        <p>Sua cidade não está na lista?</p>
+        <BotaoWhatsapp href={whatsappLink(mensagens.geral)} rotulo="Pergunte pelo WhatsApp" />
+      </div>
     </div>
     <ul>
-      {
-        cidades.map((cidade) => (
-          <li>
-            {cidade.nome}
-            {cidade.pendente && <Pendente>a confirmar</Pendente>}
-          </li>
-        ))
-      }
+      {cidades.map((cidade) => <li>{cidade}</li>)}
     </ul>
   </div>
 </section>
@@ -35,16 +29,25 @@ import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
     color: var(--cinza-escuro);
   }
 
+  .fora-da-lista {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .fora-da-lista p {
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
   ul {
     display: grid;
     align-content: start;
   }
 
   li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
     padding-block: 0.75rem;
     border-bottom: 1px solid var(--cinza-linha);
     font-weight: 600;

@@ -2,9 +2,6 @@ import type { NomeIcone } from './icones';
 
 /**
  * Dados da empresa e conteúdo do site. Tudo o que muda com frequência fica aqui.
- *
- * Dados ainda não confirmados usam `pendente` e aparecem na página com o
- * componente Pendente.astro. Para achar todos: busque por "pendente" neste arquivo.
  */
 
 const whatsappNumero = '5551981021579';
@@ -111,12 +108,12 @@ export const projetos: Projeto[] = [
     tipo: 'Casa térrea em alvenaria',
     area: '85 m²',
     quartos: '2 quartos',
-    resumo: 'Planta compacta para casal, com sala e cozinha integradas e varanda voltada para o pátio.',
+    resumo: 'Telhado de cerâmica com beiral e vigas de madeira aparentes, portas e janelas venezianas de madeira e varanda coberta na lateral.',
     fotos: [
       {
         src: '/fotos/casa4.webp',
         legenda: 'Fachada concluída',
-        alt: 'Casa térrea cinza com janelas e portas de madeira e telhado de cerâmica',
+        alt: 'Casa térrea cinza com janelas e porta venezianas de madeira, telhado de cerâmica e varanda coberta na lateral',
       },
       { legenda: 'Planta do projeto' },
       { legenda: 'Obra em andamento' },
@@ -124,12 +121,12 @@ export const projetos: Projeto[] = [
     ],
   },
   {
-    nome: 'Casa para família',
+    nome: 'Casa com platibanda',
     cidade: 'Taquara/RS',
     tipo: 'Casa térrea em alvenaria',
-    area: '120 m²',
-    quartos: '3 quartos, 1 suíte',
-    resumo: 'Três quartos em uma ala separada da área social, com garagem coberta e área de serviço.',
+    area: '70 m²',
+    quartos: '2 quartos',
+    resumo: 'Fachada de linhas retas, com platibanda escura, coluna central revestida em pedra e porta de entrada em madeira.',
     fotos: [
       {
         src: '/fotos/casa2.webp',
@@ -138,7 +135,7 @@ export const projetos: Projeto[] = [
       },
       { legenda: 'Planta do projeto' },
       { legenda: 'Obra em andamento' },
-      { legenda: 'Suíte' },
+      { legenda: 'Sala' },
     ],
   },
   {
@@ -147,12 +144,12 @@ export const projetos: Projeto[] = [
     tipo: 'Sobrado em alvenaria',
     area: '150 m²',
     quartos: '3 quartos, 1 suíte',
-    resumo: 'Dois pavimentos para aproveitar melhor um terreno estreito, com área social no térreo e quartos em cima.',
+    resumo: 'Dois pavimentos para aproveitar um terreno estreito, com volumes escuros na fachada e uma janela alta de vidro.',
     fotos: [
       {
         src: '/fotos/casa3.webp',
         legenda: 'Fachada concluída',
-        alt: 'Casa térrea moderna cinza com platibanda escura e coluna revestida em pedra',
+        alt: 'Sobrado moderno bege com volumes cinza-escuros, janela alta de vidro e muro de tijolos à frente',
       },
       { legenda: 'Planta do projeto' },
       { legenda: 'Obra em andamento' },
@@ -161,12 +158,4 @@ export const projetos: Projeto[] = [
   },
 ];
 
-/** Com `pendente: true`, a cidade aparece marcada como "a confirmar". */
-export const cidades = [
-  { nome: 'Taquara', pendente: false },
-  { nome: 'Parobé', pendente: false },
-  { nome: 'Igrejinha', pendente: false },
-  { nome: 'Três Coroas', pendente: false },
-  { nome: 'Rolante', pendente: false },
-  { nome: 'Sapiranga', pendente: false },
-];
+export const cidades = ['Taquara', 'Parobé', 'Igrejinha', 'Três Coroas', 'Rolante', 'Sapiranga'];

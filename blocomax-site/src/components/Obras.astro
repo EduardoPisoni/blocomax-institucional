@@ -52,6 +52,8 @@ import { mensagens, projetos, whatsappLink } from '../data/site';
   }
 
   .projeto {
+    --card-sombra: var(--sombra-grande);
+    --card-sombra-hover: var(--sombra-destaque);
     display: flex;
     flex-direction: column;
     border-radius: var(--raio-grande);
@@ -106,6 +108,13 @@ import { mensagens, projetos, whatsappLink } from '../data/site';
   @media (min-width: 60rem) {
     .obras {
       background-size: 100% 100%;
+    }
+
+    /* Só com mouse: em celulares e tablets o fundo fixo falha ou trava a rolagem */
+    @media (hover: hover) {
+      .obras {
+        background-attachment: fixed;
+      }
     }
 
     .projetos {
