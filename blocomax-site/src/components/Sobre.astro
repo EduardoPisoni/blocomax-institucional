@@ -1,0 +1,58 @@
+---
+import EspacoFoto from './EspacoFoto.astro';
+import Pendente from './Pendente.astro';
+import { empresa } from '../data/site';
+---
+<section id="sobre" class="secao" aria-labelledby="titulo-sobre">
+  <div class="container grade">
+    <div class="texto">
+      <h2 id="titulo-sobre">Quem está por trás da Blocomax</h2>
+      <p>
+        A Blocomax é uma <strong>incorporadora e construtora de {empresa.cidade}</strong>, com 3 anos de atuação.
+        Trabalhamos com famílias e casais que querem construir a casa própria, muitas vezes
+        pela <strong>primeira vez</strong>.
+      </p>
+      <p>
+        A empresa é conduzida pelos <strong>sócios André e Nedir</strong>, que
+        somam <Pendente>[X anos, a confirmar]</Pendente> de experiência na construção. A equipe é unida e
+        capacitada, e <strong>quem contrata sabe com quem está falando</strong> do início ao fim da obra.
+      </p>
+      <p>
+        Nosso trabalho já foi reconhecido em votação
+        popular: <Pendente>[prêmios e anos, a confirmar]</Pendente>.
+      </p>
+      <p><a class="link-seta" href="/contato">Fale com a nossa equipe</a></p>
+    </div>
+    <EspacoFoto legenda="Foto dos sócios e da equipe" />
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .texto {
+    display: grid;
+    gap: 1rem;
+    max-width: 38rem;
+  }
+
+  .texto p {
+    color: var(--cinza-escuro);
+    line-height: 1.75;
+  }
+
+  .texto .link-seta {
+    color: var(--preto);
+  }
+
+  @media (min-width: 60rem) {
+    .grade {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+  }
+</style>

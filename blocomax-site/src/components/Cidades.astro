@@ -1,0 +1,72 @@
+---
+import Pendente from './Pendente.astro';
+import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
+---
+<section id="cidades" class="secao secao--clara" aria-labelledby="titulo-cidades">
+  <div class="container grade">
+    <div>
+      <h2 id="titulo-cidades">Onde atendemos</h2>
+      <p class="apoio">
+        A Blocomax fica em <strong>{empresa.cidade}</strong> e atende a região. Sua cidade não está
+        na lista? <a href={whatsappLink(mensagens.geral)} target="_blank" rel="noopener">Pergunte pelo WhatsApp<span class="so-leitor"> (abre em nova aba)</span></a>.
+      </p>
+    </div>
+    <ul>
+      {
+        cidades.map((cidade) => (
+          <li>
+            {cidade.nome}
+            {cidade.pendente && <Pendente>a confirmar</Pendente>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .apoio {
+    margin-top: 0.75rem;
+    color: var(--cinza-escuro);
+  }
+
+  ul {
+    display: grid;
+    align-content: start;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--cinza-linha);
+    font-weight: 600;
+    transition: border-color var(--transicao), padding-left var(--transicao);
+  }
+
+  @media (hover: hover) {
+    li:hover {
+      border-bottom-color: var(--laranja);
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    li:hover {
+      padding-left: 0.5rem;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .grade {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+</style>

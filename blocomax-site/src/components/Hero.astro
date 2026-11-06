@@ -1,0 +1,182 @@
+---
+import BotaoWhatsapp from './BotaoWhatsapp.astro';
+import SeloIcone from './SeloIcone.astro';
+import { empresa, mensagens, whatsappLink } from '../data/site';
+import type { NomeIcone } from '../data/icones';
+
+const caminhos: { href: string; icone: NomeIcone; titulo: string; texto: string }[] = [
+  { href: '#incorporacao', icone: 'terreno', titulo: 'Ainda não tenho terreno', texto: 'Veja como funciona a compra de terreno com a Blocomax.' },
+  { href: '#construcao', icone: 'projeto', titulo: 'Preciso de um projeto', texto: 'Um arquiteto parceiro desenha a casa com você.' },
+  { href: '#obras', icone: 'casa', titulo: 'Quero ver o que vocês fazem', texto: 'Veja exemplos de casas que podemos construir.' },
+];
+---
+<section class="hero">
+  <div class="container grade">
+    <div class="texto">
+      <h1>{empresa.slogan}</h1>
+      <p class="apoio">
+        Construímos <strong>casas de alvenaria</strong> em {empresa.cidade} e região. Se faltar o
+        terreno ou o projeto, <strong>resolvemos isso junto com você</strong>.
+      </p>
+      <div class="acoes">
+        <BotaoWhatsapp href={whatsappLink(mensagens.geral)} />
+        <a class="link-seta" href="#como-funciona">Entender como funciona</a>
+      </div>
+    </div>
+    <img
+      class="foto"
+      src="/fotos/casa1.webp"
+      alt="Casa concluída pela Blocomax, com varanda de madeira e telhado de cerâmica"
+      width="1080"
+      height="810"
+      fetchpriority="high"
+    />
+  </div>
+
+  <nav class="caminhos" aria-label="Por onde começar">
+    <ul class="container lista">
+      {
+        caminhos.map((caminho) => (
+          <li>
+            <a href={caminho.href}>
+              <SeloIcone nome={caminho.icone} />
+              <div class="atalho">
+                <strong>{caminho.titulo}</strong>
+                <span>{caminho.texto}</span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: clamp(2.5rem, 7vw, 5rem);
+  }
+
+  .foto {
+    width: 100%;
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra);
+  }
+
+  .apoio {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    color: var(--cinza-escuro);
+    font-size: 1.1875rem;
+  }
+
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-top: 2rem;
+  }
+
+  .caminhos {
+    background: var(--gradiente-laranja);
+    color: var(--preto);
+  }
+
+  .lista {
+    display: grid;
+  }
+
+  .lista li + li {
+    border-top: 1px solid rgb(20 20 20 / 0.25);
+  }
+
+  .lista a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: clamp(1.5rem, 3vw, 2.25rem);
+    text-decoration: none;
+  }
+
+  .lista strong {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .lista span {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.9375rem;
+  }
+
+  /* Move o texto, não o link: a área do mouse fica parada */
+  .atalho {
+    transition: translate var(--transicao);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .lista a:hover .atalho {
+      translate: 0.25rem 0;
+    }
+
+    .lista a:hover :global(.selo) {
+      scale: 1.08;
+    }
+  }
+
+  .lista a:hover strong {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  /*
+   * Primeira tela inteira, sem contar o cabeçalho e com teto para monitores altos.
+   * A foto encolhe conforme a altura para a faixa laranja caber em notebooks.
+   * No celular o conteúdo é maior que a tela, então a altura segue o conteúdo.
+   */
+  @media (min-width: 60rem) {
+    .hero {
+      --cabecalho: 4.5rem;
+      --respiro: clamp(1.5rem, 5svh, 5rem);
+      --respiro-faixa: clamp(1.25rem, 3.5svh, 2.25rem);
+      --faixa: calc(5.25rem + 2 * var(--respiro-faixa));
+      display: flex;
+      flex-direction: column;
+      min-height: calc(min(100svh, 60rem) - var(--cabecalho));
+    }
+
+    .grade {
+      flex: 1;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      padding-block: var(--respiro);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 8svh, 3.75rem);
+    }
+
+    .foto {
+      max-height: max(14rem, calc(100svh - var(--cabecalho) - var(--faixa) - 2 * var(--respiro)));
+      object-fit: cover;
+    }
+
+    .lista a {
+      padding-block: var(--respiro-faixa);
+    }
+
+    .lista {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .lista li + li {
+      border-top: 0;
+    }
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { empresa, navegacao } from '../data/site';
+
+const ano = new Date().getFullYear();
+---
+<footer class="rodape">
+  <div class="container grade">
+    <div>
+      <Image src={logo} alt={empresa.nomeCompleto} height={72} densities={[1, 2]} />
+      <p class="slogan">{empresa.slogan}</p>
+    </div>
+
+    <nav aria-label="Rodapé">
+      <ul>
+        {navegacao.map((item) => <li><a href={item.href}>{item.rotulo}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container legal">
+    <p>© {ano} {empresa.nomeCompleto}. {empresa.cidade}.</p>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    background: var(--branco);
+  }
+
+  .grade {
+    display: grid;
+    gap: 2rem;
+    padding-block: 2.5rem;
+  }
+
+  img {
+    width: auto;
+    height: 4.5rem;
+  }
+
+  .slogan {
+    margin-top: 0.75rem;
+    color: var(--cinza-escuro);
+    font-size: 0.9375rem;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+  }
+
+  li a {
+    display: inline-block;
+    padding-block: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    transition: text-decoration-color var(--transicao);
+  }
+
+  li a:hover {
+    text-decoration-color: var(--laranja);
+  }
+
+  .legal {
+    padding-block: 1.25rem;
+    /* evita que o botão flutuante cubra o texto no fim da página */
+    padding-right: 5.5rem;
+    border-top: 1px solid var(--cinza-linha);
+    color: var(--cinza-escuro);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 60rem) {
+    .grade {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+</style>

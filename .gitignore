@@ -1,0 +1,7 @@
+# Firebase
+.firebase/
+firebase-debug.log*
+
+# variáveis de ambiente
+.env
+.env.*

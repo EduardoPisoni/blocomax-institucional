@@ -1,0 +1,115 @@
+---
+import GaleriaObra from './GaleriaObra.vue';
+import Icone from './Icone.astro';
+import { mensagens, projetos, whatsappLink } from '../data/site';
+---
+<section id="obras" class="secao secao--clara obras" aria-labelledby="titulo-obras">
+  <div class="container">
+    <div class="titulo-secao">
+      <h2 id="titulo-obras">Exemplos de projetos</h2>
+      <!-- Remover este aviso e as etiquetas quando os dados reais entrarem em src/data/site.ts -->
+      <p>Áreas e demais dados são <strong>ilustrativos</strong> e serão atualizados em breve.</p>
+    </div>
+
+    <ul class="projetos">
+      {
+        projetos.map((projeto) => (
+          <li class="projeto card-elevavel">
+            <GaleriaObra nome={projeto.nome} fotos={projeto.fotos} client:visible />
+            <div class="corpo">
+              <p class="etiqueta">Dados ilustrativos</p>
+              <h3>{projeto.nome}</h3>
+              <p>{projeto.resumo}</p>
+              <dl>
+                <div><dt><Icone nome="casa" tamanho={20} />Tipo</dt><dd>{projeto.tipo}</dd></div>
+                <div><dt><Icone nome="area" tamanho={20} />Área</dt><dd>{projeto.area}</dd></div>
+                <div><dt><Icone nome="quartos" tamanho={20} />Quartos</dt><dd>{projeto.quartos}</dd></div>
+                <div><dt><Icone nome="local" tamanho={20} />Local</dt><dd>{projeto.cidade}</dd></div>
+              </dl>
+              <a class="link-seta" href={whatsappLink(mensagens.projeto(projeto.nome))} target="_blank" rel="noopener">
+                Quero um projeto assim<span class="so-leitor">: {projeto.nome}, pelo WhatsApp (abre em nova aba)</span>
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Imagem única com o telhado do logo. A opacidade fica no próprio SVG */
+  .obras {
+    background-image: url('/textura-telhado.svg');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 100% 70vw; /* mantém a proporção da imagem na coluna única */
+  }
+
+  .projetos {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .projeto {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--raio-grande);
+    background: var(--branco);
+  }
+
+  .corpo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .etiqueta {
+    color: var(--cinza-escuro);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.25rem;
+    width: 100%;
+    margin: 0 0 auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--cinza-linha);
+    font-size: 0.9375rem;
+  }
+
+  dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  dt {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--cinza-escuro);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  @media (min-width: 60rem) {
+    .obras {
+      background-size: 100% 100%;
+    }
+
+    .projetos {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

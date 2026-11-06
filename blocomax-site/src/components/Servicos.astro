@@ -1,0 +1,140 @@
+---
+import Botao from './Botao.astro';
+import IlustracaoConstrucao from './IlustracaoConstrucao.astro';
+import IlustracaoTerreno from './IlustracaoTerreno.astro';
+import { mensagens, whatsappLink } from '../data/site';
+---
+<section id="servicos" class="secao secao--clara" aria-labelledby="titulo-servicos">
+  <div class="container">
+    <div class="titulo-secao">
+      <h2 id="titulo-servicos">O que a Blocomax faz por você</h2>
+      <p>Você pode contratar só a obra ou resolver tudo em um lugar só: <strong>terreno, projeto e construção</strong>.</p>
+    </div>
+
+    <div class="colunas">
+      <article id="construcao" class="servico card-elevavel">
+        <div class="ilustracao"><IlustracaoConstrucao /></div>
+        <h3>Construção</h3>
+        <p>
+          Construímos casas e outros imóveis, com
+          o <strong>acompanhamento de um arquiteto parceiro</strong> desde o projeto. Se você ainda não tem terreno, ajudamos nisso também.
+        </p>
+        <ul>
+          <li>Casas de alvenaria</li>
+          <li>Demais imóveis, sob consulta</li>
+          <li>Projeto com arquiteto parceiro</li>
+          <li>Venda de terreno, se você precisar</li>
+        </ul>
+        <Botao bloco href={whatsappLink(mensagens.construcao)} target="_blank" rel="noopener">
+          <span>Orçar minha construção<span class="so-leitor"> pelo WhatsApp (abre em nova aba)</span></span>
+        </Botao>
+      </article>
+
+      <article id="incorporacao" class="servico card-elevavel">
+        <div class="ilustracao"><IlustracaoTerreno /></div>
+        <h3>Incorporação</h3>
+        <p>
+          Compramos e vendemos <strong>terrenos e casas prontas</strong>. Para quem quer começar do zero ou prefere
+          uma casa já construída.
+        </p>
+        <ul>
+          <li>Terrenos para construir</li>
+          <li>Casas prontas para morar</li>
+          <li>Construção no terreno comprado com a gente</li>
+        </ul>
+        <p class="nota">Pergunte pelo WhatsApp o que está disponível agora.</p>
+        <Botao bloco href={whatsappLink(mensagens.incorporacao)} target="_blank" rel="noopener">
+          <span>Consultar terrenos e casas<span class="so-leitor"> pelo WhatsApp (abre em nova aba)</span></span>
+        </Botao>
+      </article>
+    </div>
+
+    <p class="proximo"><a class="link-seta" href="#como-funciona">Veja como funciona, do terreno à chave</a></p>
+  </div>
+</section>
+
+<style>
+  .colunas {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .servico {
+    --respiro: clamp(1.5rem, 4vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: var(--respiro);
+    border-radius: var(--raio-grande);
+    background: var(--branco);
+  }
+
+  /* Vai até as bordas do card */
+  .ilustracao {
+    position: relative;
+    align-self: stretch;
+    overflow: hidden;
+    margin: calc(-1 * var(--respiro)) calc(-1 * var(--respiro)) 0.5rem;
+    padding: 2rem 1.5rem 0;
+    border-radius: var(--raio-grande) var(--raio-grande) 0 0;
+    background: var(--gradiente-creme);
+  }
+
+  /* Barra em vez de borda: uma borda afinaria nos cantos arredondados */
+  .ilustracao::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 4px;
+    background: var(--laranja);
+    content: '';
+  }
+
+  .ilustracao :global(svg) {
+    transform-origin: bottom;
+    transition: scale var(--transicao);
+  }
+
+  .servico h3 {
+    font-size: 1.5rem;
+  }
+
+  .servico ul {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .servico li {
+    padding-left: 1.25rem;
+    background: linear-gradient(var(--laranja), var(--laranja)) 0 0.65em / 0.5rem 2px no-repeat;
+  }
+
+  .nota {
+    color: var(--cinza-escuro);
+  }
+
+  .servico :global(.botao) {
+    margin-top: auto;
+  }
+
+  .proximo {
+    margin-top: 2rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .servico:hover .ilustracao :global(svg) {
+      scale: 1.04;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .colunas {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

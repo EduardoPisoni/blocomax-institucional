@@ -1,0 +1,47 @@
+---
+import IconeWhatsapp from './IconeWhatsapp.astro';
+import { mensagens, whatsappLink } from '../data/site';
+---
+<a
+  class="flutuante"
+  href={whatsappLink(mensagens.geral)}
+  target="_blank"
+  rel="noopener"
+  aria-label="Falar com a Blocomax pelo WhatsApp (abre em nova aba)"
+>
+  <IconeWhatsapp tamanho={30} />
+</a>
+
+<style>
+  .flutuante {
+    position: fixed;
+    z-index: 30;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    display: grid;
+    place-items: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 50%;
+    background: var(--whatsapp-claro);
+    color: var(--branco);
+    box-shadow: var(--sombra-grande);
+    transition: background-color 0.15s, scale var(--transicao);
+  }
+
+  .flutuante:hover {
+    background: var(--whatsapp-medio);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .flutuante:hover {
+      scale: 1.08;
+    }
+  }
+
+  .flutuante:focus-visible {
+    outline-color: var(--preto);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--branco);
+  }
+</style>

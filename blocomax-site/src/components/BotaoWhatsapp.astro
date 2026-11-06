@@ -1,0 +1,15 @@
+---
+import Botao from './Botao.astro';
+import IconeWhatsapp from './IconeWhatsapp.astro';
+
+interface Props {
+  href: string;
+  rotulo?: string;
+}
+const { href, rotulo = 'Pedir orçamento pelo WhatsApp' } = Astro.props;
+---
+<Botao variante="whatsapp" href={href} target="_blank" rel="noopener">
+  <IconeWhatsapp slot="icone" />
+  <span>{rotulo}</span>
+  <span class="so-leitor">(abre em nova aba)</span>
+</Botao>

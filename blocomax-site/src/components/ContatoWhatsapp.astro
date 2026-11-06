@@ -1,0 +1,92 @@
+---
+import BotaoWhatsapp from './BotaoWhatsapp.astro';
+import { empresa, mensagens, whatsappLink } from '../data/site';
+
+const dicas = [
+  'A cidade ou o bairro onde você quer construir',
+  'Se você já tem terreno e projeto',
+  'O tamanho aproximado da casa que imagina',
+];
+---
+<section class="secao" aria-labelledby="titulo-whatsapp">
+  <div class="container grade">
+    <div>
+      <h1 id="titulo-whatsapp">Peça seu orçamento pelo WhatsApp</h1>
+      <p class="apoio">
+        É o <strong>jeito mais prático</strong> de falar com a gente. O botão abre a conversa com a mensagem pronta,
+        e quem responde é a <strong>equipe da Blocomax</strong>.
+      </p>
+      <p class="acao">
+        <BotaoWhatsapp href={whatsappLink(mensagens.geral)} rotulo={empresa.telefoneExibicao} />
+      </p>
+    </div>
+
+    <div class="dicas">
+      <h2>O que ajuda contar na mensagem</h2>
+      <ul>
+        {dicas.map((dica) => <li>{dica}</li>)}
+      </ul>
+      <p>Ainda não sabe tudo isso? <strong>Pode chamar assim mesmo.</strong></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 6vw, 3.25rem);
+  }
+
+  .apoio {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    color: var(--cinza-escuro);
+    font-size: 1.1875rem;
+  }
+
+  .acao {
+    margin-top: 2rem;
+  }
+
+  .acao :global(.botao) {
+    font-size: 1.25rem;
+  }
+
+  .dicas {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--raio-grande);
+    background: var(--fundo-claro);
+  }
+
+  .dicas h2 {
+    font-size: 1.375rem;
+  }
+
+  .dicas ul {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .dicas li {
+    padding-left: 1.25rem;
+    background: linear-gradient(var(--laranja), var(--laranja)) 0 0.65em / 0.5rem 2px no-repeat;
+  }
+
+  .dicas p {
+    color: var(--cinza-escuro);
+  }
+
+  @media (min-width: 60rem) {
+    .grade {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+  }
+</style>

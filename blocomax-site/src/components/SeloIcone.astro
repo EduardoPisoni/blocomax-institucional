@@ -1,0 +1,24 @@
+---
+import Icone from './Icone.astro';
+import type { NomeIcone } from '../data/icones';
+
+interface Props {
+  nome: NomeIcone;
+}
+const { nome } = Astro.props;
+---
+<span class="selo"><Icone nome={nome} tamanho={36} /></span>
+
+<style>
+  .selo {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--raio-grande);
+    background: var(--gradiente-creme);
+    color: var(--preto);
+    transition: scale var(--transicao);
+  }
+</style>

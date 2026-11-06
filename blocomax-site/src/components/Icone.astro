@@ -1,0 +1,14 @@
+---
+import { icones, type NomeIcone } from '../data/icones';
+
+interface Props {
+  nome: NomeIcone;
+  tamanho?: number;
+}
+const { nome, tamanho = 32 } = Astro.props;
+const { base, acento } = icones[nome];
+---
+<svg width={tamanho} height={tamanho} viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path d={base} stroke="currentColor" />
+  <path d={acento} stroke="var(--laranja)" />
+</svg>

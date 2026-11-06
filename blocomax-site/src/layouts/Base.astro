@@ -1,0 +1,107 @@
+---
+import '@fontsource-variable/montserrat';
+import '../styles/global.css';
+import BotaoFlutuante from '../components/BotaoFlutuante.astro';
+import Cabecalho from '../components/Cabecalho.astro';
+import Rodape from '../components/Rodape.astro';
+import { cidades, empresa } from '../data/site';
+
+interface Props {
+  titulo?: string;
+  descricao?: string;
+  /** Falso em páginas internas, que não devem aparecer no Google. */
+  indexar?: boolean;
+}
+
+const {
+  titulo = `${empresa.nome} | Construtora e incorporadora em ${empresa.cidade}`,
+  descricao = empresa.descricao,
+  indexar = true,
+} = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const imagem = new URL('/og.png', Astro.site).href;
+
+const dadosEstruturados = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  name: empresa.nomeCompleto,
+  description: empresa.descricao,
+  url,
+  image: imagem,
+  telephone: '+55-51-98102-1579',
+  email: empresa.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Taquara',
+    addressRegion: 'RS',
+    addressCountry: 'BR',
+  },
+  areaServed: cidades.filter((cidade) => !cidade.pendente).map((cidade) => cidade.nome),
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: empresa.horarioSchema.dias,
+    opens: empresa.horarioSchema.abre,
+    closes: empresa.horarioSchema.fecha,
+  },
+  sameAs: [empresa.instagramUrl],
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    {indexar ? <link rel="canonical" href={url} /> : <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#ff8a00" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={empresa.nome} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={imagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    {indexar && <script type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)} />}
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <Cabecalho />
+    <main id="conteudo" tabindex="-1">
+      <slot />
+    </main>
+    <Rodape />
+    <aside aria-label="Contato rápido">
+      <BotaoFlutuante />
+    </aside>
+  </body>
+</html>
+
+<style>
+  .pular {
+    position: fixed;
+    z-index: 50;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--raio);
+    background: var(--preto);
+    color: var(--branco);
+    font-weight: 600;
+    transform: translateY(-200%);
+  }
+
+  .pular:focus {
+    transform: none;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

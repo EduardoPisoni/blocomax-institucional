@@ -1,0 +1,81 @@
+---
+import EspacoFoto from './EspacoFoto.astro';
+import IconeInstagram from './IconeInstagram.astro';
+import { empresa } from '../data/site';
+---
+<section class="secao" aria-labelledby="titulo-instagram">
+  <div class="container grade">
+    <div>
+      <h2 id="titulo-instagram">Acompanhe nossas obras no Instagram</h2>
+      <p class="apoio">Veja de perto o nosso trabalho em {empresa.instagramUsuario}.</p>
+      <a class="seguir" href={empresa.instagramUrl} target="_blank" rel="noopener">
+        <IconeInstagram />
+        Ver o Instagram<span class="so-leitor"> da Blocomax (abre em nova aba)</span>
+      </a>
+    </div>
+
+    <ul class="publicacoes">
+      <li><EspacoFoto legenda="Publicação" proporcao="1 / 1" /></li>
+      <li><EspacoFoto legenda="Publicação" proporcao="1 / 1" /></li>
+      <li><EspacoFoto legenda="Publicação" proporcao="1 / 1" /></li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .apoio {
+    margin-top: 0.75rem;
+    color: var(--cinza-escuro);
+    overflow-wrap: anywhere;
+  }
+
+  .seguir {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 3.25rem;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--raio);
+    background: var(--preto);
+    color: var(--branco);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--sombra-pequena);
+    transition: background-color 0.15s, scale var(--transicao);
+  }
+
+  .seguir:hover {
+    background: var(--cinza-escuro);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .seguir:hover {
+      scale: 1.03;
+    }
+  }
+
+  .publicacoes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.5rem, 2vw, 1.25rem);
+  }
+
+  .publicacoes :global(.espaco-foto) {
+    padding: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  @media (min-width: 60rem) {
+    .grade {
+      grid-template-columns: 1fr 1.6fr;
+      align-items: center;
+      gap: 4rem;
+    }
+  }
+</style>

@@ -1,0 +1,1012 @@
+---
+/**
+ * Referência de estilos: mostra os componentes reais do site e os tokens de global.css.
+ * Os tokens são lidos do próprio CSS durante o build, então não precisam ser mantidos aqui.
+ * A página fica fora do menu e não é indexada.
+ */
+import cssGlobal from '../styles/global.css?raw';
+import Base from '../layouts/Base.astro';
+import Botao from '../components/Botao.astro';
+import BotaoFlutuante from '../components/BotaoFlutuante.astro';
+import BotaoWhatsapp from '../components/BotaoWhatsapp.astro';
+import ChamadaOrcamento from '../components/ChamadaOrcamento.astro';
+import Cidades from '../components/Cidades.astro';
+import ComoFunciona from '../components/ComoFunciona.astro';
+import ContatoFormas from '../components/ContatoFormas.astro';
+import ContatoInstagram from '../components/ContatoInstagram.astro';
+import ContatoWhatsapp from '../components/ContatoWhatsapp.astro';
+import EspacoFoto from '../components/EspacoFoto.astro';
+import GaleriaObra from '../components/GaleriaObra.vue';
+import Hero from '../components/Hero.astro';
+import Icone from '../components/Icone.astro';
+import IconeInstagram from '../components/IconeInstagram.astro';
+import IconeSeta from '../components/IconeSeta.astro';
+import IlustracaoConstrucao from '../components/IlustracaoConstrucao.astro';
+import IlustracaoTerreno from '../components/IlustracaoTerreno.astro';
+import Obras from '../components/Obras.astro';
+import Pendente from '../components/Pendente.astro';
+import SeloIcone from '../components/SeloIcone.astro';
+import Servicos from '../components/Servicos.astro';
+import Sobre from '../components/Sobre.astro';
+import { nomesDeIcones } from '../data/icones';
+import { mensagens, whatsappLink } from '../data/site';
+
+interface Token {
+  nome: string;
+  valor: string;
+  uso?: string;
+}
+
+const blocoRaiz = cssGlobal.slice(cssGlobal.indexOf(':root'), cssGlobal.indexOf('\n}'));
+const tokens: Token[] = [...blocoRaiz.matchAll(/^\s*--([\w-]+):\s*([^;]+);(?:[ \t]*\/\*\s*(.*?)\s*\*\/)?/gm)].map(
+  ([, nome, valor, uso]) => ({ nome, valor, uso }),
+);
+const porPrefixo = (padrao: RegExp) => tokens.filter((token) => padrao.test(token.nome));
+
+const gruposDeCor = [
+  { titulo: 'Marca e neutros', itens: porPrefixo(/^(laranja|preto|cinza|fundo|branco)/) },
+  { titulo: 'WhatsApp', itens: porPrefixo(/^whatsapp/) },
+  { titulo: 'Papéis', itens: porPrefixo(/^(acao|foco)/) },
+];
+const gradientes = porPrefixo(/^gradiente/).map((token) => ({
+  ...token,
+  texto: token.uso?.startsWith('texto branco') ? 'branco' : 'preto',
+}));
+const raios = porPrefixo(/^raio/);
+const sombras = porPrefixo(/^sombra/);
+const medidas = porPrefixo(/^(largura|margem|secao|transicao)/);
+
+const variantes = [
+  { variante: 'primario', nome: 'Primário', uso: 'A ação principal do bloco. Um só por bloco.' },
+  { variante: 'secundario', nome: 'Secundário', uso: 'Ação importante ao lado do primário, ou a principal sobre laranja.' },
+  { variante: 'suave', nome: 'Suave', uso: 'Ação de apoio com a cor da marca, em cards e listas.' },
+  { variante: 'contorno', nome: 'Contorno', uso: 'Alternativa de menor peso, como cancelar ou ver mais.' },
+  { variante: 'fantasma', nome: 'Fantasma', uso: 'Ação discreta ou repetida, como anterior e próxima.' },
+  { variante: 'link', nome: 'Link', uso: 'Ação no meio do conteúdo, sem peso de botão.' },
+  { variante: 'whatsapp', nome: 'WhatsApp', uso: 'Fora da hierarquia: só para abrir o WhatsApp. Tem o peso do primário.' },
+] as const;
+
+const tamanhos = [
+  { tamanho: 'pequeno', nome: 'Pequeno' },
+  { tamanho: 'medio', nome: 'Médio' },
+  { tamanho: 'grande', nome: 'Grande' },
+] as const;
+
+const fundos = [
+  { classe: 'fundo-branco', rotulo: 'Sobre branco' },
+  { classe: 'fundo-claro', rotulo: 'Sobre cinza claro' },
+  { classe: 'fundo-laranja', rotulo: 'Sobre laranja' },
+  { classe: 'fundo-preto', rotulo: 'Sobre preto' },
+];
+
+const secoes = [
+  { arquivo: 'Hero.astro', Componente: Hero },
+  { arquivo: 'Servicos.astro', Componente: Servicos },
+  { arquivo: 'ComoFunciona.astro', Componente: ComoFunciona },
+  { arquivo: 'Obras.astro', Componente: Obras },
+  { arquivo: 'Sobre.astro', Componente: Sobre },
+  { arquivo: 'Cidades.astro', Componente: Cidades },
+  { arquivo: 'ChamadaOrcamento.astro', Componente: ChamadaOrcamento },
+  { arquivo: 'ContatoWhatsapp.astro', Componente: ContatoWhatsapp },
+  { arquivo: 'ContatoFormas.astro', Componente: ContatoFormas },
+  { arquivo: 'ContatoInstagram.astro', Componente: ContatoInstagram },
+];
+
+const indice = [
+  { href: '#cores', rotulo: 'Cores' },
+  { href: '#gradientes', rotulo: 'Gradientes' },
+  { href: '#icones', rotulo: 'Ícones' },
+  { href: '#tipografia', rotulo: 'Tipografia' },
+  { href: '#raios-sombras', rotulo: 'Raios e sombras' },
+  { href: '#botoes', rotulo: 'Botões' },
+  { href: '#links', rotulo: 'Links' },
+  { href: '#etiquetas', rotulo: 'Etiquetas' },
+  { href: '#fotos', rotulo: 'Fotos e galeria' },
+  { href: '#celular', rotulo: 'Celular' },
+  { href: '#secoes', rotulo: 'Seções' },
+];
+
+const link = whatsappLink(mensagens.geral);
+const fotosReservadas = [{ legenda: 'Foto ainda não enviada' }, { legenda: 'Planta do projeto' }];
+const fotosComImagem = [
+  { src: '/fotos/casa2.webp', legenda: 'Fachada concluída' },
+  { legenda: 'Foto ainda não enviada' },
+];
+---
+<Base
+  titulo="Referência de estilos | Blocomax"
+  descricao="Cores, tipografia e componentes do site da Blocomax."
+  indexar={false}
+>
+  <div class="guia">
+    <div class="container">
+      <header class="abertura">
+        <h1>Referência de estilos</h1>
+        <p>
+          Componentes reais do site e suas variações. Cores, raios, sombras e medidas são lidos de{' '}
+          <code>src/styles/global.css</code>, então esta página acompanha qualquer ajuste.
+        </p>
+        <nav aria-label="Nesta página">
+          <ul class="indice">
+            {indice.map((item) => <li><a href={item.href}>{item.rotulo}</a></li>)}
+          </ul>
+        </nav>
+      </header>
+
+      <section id="cores" class="bloco" aria-labelledby="titulo-cores">
+        <h2 id="titulo-cores">Cores</h2>
+        {
+          gruposDeCor.map((grupo) => (
+            <>
+              <h3>{grupo.titulo}</h3>
+              <ul class="grade-tokens">
+                {grupo.itens.map((token) => (
+                  <li class="amostra">
+                    <span class="cor" style={{ background: `var(--${token.nome})` }} />
+                    <code>--{token.nome}</code>
+                    <span class="valor">{token.valor}</span>
+                    {token.uso && <span class="uso">{token.uso}</span>}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ))
+        }
+      </section>
+
+      <section id="gradientes" class="bloco" aria-labelledby="titulo-gradientes">
+        <h2 id="titulo-gradientes">Gradientes</h2>
+        <p class="nota">
+          Cada gradiente tem uma cor de texto definida. O contraste indicado é o menor ponto de toda a
+          transição, e todos passam de 4,5:1.
+        </p>
+        <ul class="gradientes">
+          {
+            gradientes.map((token) => (
+              <li>
+                <div class="gradiente" style={{ background: `var(--${token.nome})`, color: `var(--${token.texto})` }}>
+                  <strong>Você sonha.</strong>
+                  <span>Texto {token.texto} sobre o gradiente</span>
+                </div>
+                <code>--{token.nome}</code>
+                <span class="uso">{token.uso}</span>
+                <span class="valor">{token.valor}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section id="icones" class="bloco" aria-labelledby="titulo-icones">
+        <h2 id="titulo-icones">Ícones e ilustrações</h2>
+        <p class="nota">
+          Desenhos próprios da Blocomax: traço na cor do texto e detalhe em laranja. Para criar um ícone
+          novo, adicione o traço em <code>src/data/icones.ts</code>. Ele aparece aqui sozinho.
+        </p>
+
+        <h3>Ícones</h3>
+        <ul class="icones">
+          {
+            nomesDeIcones.map((nome) => (
+              <li>
+                <SeloIcone nome={nome} />
+                <code>{nome}</code>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3>Tamanhos e fundos</h3>
+        <p class="nota"><code>Icone.astro</code> sozinho ou dentro de <code>SeloIcone.astro</code>.</p>
+        <div class="linha">
+          <figure>
+            <Icone nome="casa" tamanho={20} />
+            <figcaption>20px: listas de dados</figcaption>
+          </figure>
+          <figure>
+            <Icone nome="casa" />
+            <figcaption>32px: padrão</figcaption>
+          </figure>
+          <figure>
+            <Icone nome="casa" tamanho={48} />
+            <figcaption>48px: destaque</figcaption>
+          </figure>
+          <figure>
+            <SeloIcone nome="casa" />
+            <figcaption>Selo: cards e etapas</figcaption>
+          </figure>
+          <figure class="sobre-preto">
+            <Icone nome="casa" />
+            <figcaption>Herda a cor do texto</figcaption>
+          </figure>
+        </div>
+
+        <h3>Ilustrações</h3>
+        <ul class="ilustracoes">
+          <li>
+            <div><IlustracaoConstrucao /></div>
+            <code>IlustracaoConstrucao.astro</code>
+          </li>
+          <li>
+            <div><IlustracaoTerreno /></div>
+            <code>IlustracaoTerreno.astro</code>
+          </li>
+        </ul>
+      </section>
+
+      <section id="tipografia" class="bloco" aria-labelledby="titulo-tipografia">
+        <h2 id="titulo-tipografia">Tipografia</h2>
+        <p class="nota">Montserrat variável. Títulos em peso 700 e texto corrido em peso 400.</p>
+        <dl class="tipos">
+          <div>
+            <dt>Título 1</dt>
+            <dd class="t-1">Você sonha. Nós construímos!</dd>
+          </div>
+          <div>
+            <dt>Título 2</dt>
+            <dd class="t-2">Do terreno à entrega da chave</dd>
+          </div>
+          <div>
+            <dt>Título 3</dt>
+            <dd class="t-3">Orçamento e contrato</dd>
+          </div>
+          <div>
+            <dt>Texto</dt>
+            <dd>Conte o que você quer construir e quem responde é a equipe da Blocomax.</dd>
+          </div>
+          <div>
+            <dt>Texto de apoio</dt>
+            <dd class="t-apoio">Construir pela primeira vez gera muitas dúvidas.</dd>
+          </div>
+          <div>
+            <dt>Texto pequeno</dt>
+            <dd class="t-pequeno">© Blocomax Incorporadora e Construtora</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="raios-sombras" class="bloco" aria-labelledby="titulo-raios">
+        <h2 id="titulo-raios">Raios, sombras e medidas</h2>
+        <h3>Raios</h3>
+        <ul class="grade-tokens">
+          {
+            raios.map((token) => (
+              <li class="amostra">
+                <span class="forma" style={{ borderRadius: `var(--${token.nome})` }} />
+                <code>--{token.nome}</code>
+                <span class="valor">{token.valor}</span>
+                {token.uso && <span class="uso">{token.uso}</span>}
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3>Sombras</h3>
+        <ul class="grade-tokens">
+          {
+            sombras.map((token) => (
+              <li class="amostra">
+                <span class="forma forma--sombra" style={{ boxShadow: `var(--${token.nome})` }} />
+                <code>--{token.nome}</code>
+                {token.uso && <span class="uso">{token.uso}</span>}
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3>Medidas</h3>
+        <ul class="lista-medidas">
+          {
+            medidas.map((token) => (
+              <li><code>--{token.nome}</code> <span class="valor">{token.valor}</span></li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section id="botoes" class="bloco" aria-labelledby="titulo-botoes">
+        <h2 id="titulo-botoes">Botões</h2>
+
+        <h3>Hierarquia</h3>
+        <p class="nota">
+          <code>Botao.astro</code>, em ordem de ênfase. Quanto mais importante a ação, mais forte o
+          botão: use um único primário por bloco.
+        </p>
+        <ol class="hierarquia">
+          {
+            variantes.map((item) => (
+              <li>
+                <div>
+                  <Botao variante={item.variante}>{item.nome}</Botao>
+                </div>
+                <code>variante="{item.variante}"</code>
+                <p>{item.uso}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <h3>Estados</h3>
+        <p class="nota">
+          Com <code>href</code> o botão vira link. Desabilitado e carregando são sempre{' '}
+          <code>&lt;button&gt;</code>.
+        </p>
+        <div class="rolagem">
+          <table class="estados">
+            <thead>
+              <tr>
+                <th scope="col">Variante</th>
+                <th scope="col">Normal</th>
+                <th scope="col">Mouse sobre</th>
+                <th scope="col">Foco do teclado</th>
+                <th scope="col"><code>desabilitado</code></th>
+                <th scope="col"><code>carregando</code></th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                variantes.map(({ variante, nome }) => (
+                  <tr>
+                    <th scope="row">{nome}</th>
+                    <td><Botao variante={variante} tamanho="pequeno">Botão</Botao></td>
+                    <td class="forcar-hover"><Botao variante={variante} tamanho="pequeno">Botão</Botao></td>
+                    <td class="forcar-foco"><Botao variante={variante} tamanho="pequeno">Botão</Botao></td>
+                    <td><Botao variante={variante} tamanho="pequeno" desabilitado>Botão</Botao></td>
+                    <td><Botao variante={variante} tamanho="pequeno" carregando>Botão</Botao></td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Tamanhos</h3>
+        <p class="nota">O médio é o padrão. O pequeno tem 44px de altura, o mínimo confortável para o toque.</p>
+        <div class="linha">
+          {
+            tamanhos.map(({ tamanho, nome }) => (
+              <figure>
+                <Botao tamanho={tamanho}>{nome}</Botao>
+                <figcaption><code>tamanho="{tamanho}"</code></figcaption>
+              </figure>
+            ))
+          }
+          <figure>
+            <Botao variante="secundario" tamanho="pequeno">Pequeno</Botao>
+            <figcaption>Secundário pequeno</figcaption>
+          </figure>
+          <figure>
+            <Botao variante="contorno" tamanho="grande">Grande</Botao>
+            <figcaption>Contorno grande</figcaption>
+          </figure>
+        </div>
+
+        <h3>Com ícone</h3>
+        <p class="nota">
+          Ícones entram pelos slots <code>icone</code> e <code>icone-fim</code>. Sem texto, use{' '}
+          <code>apenasIcone</code> e descreva a ação em <code>aria-label</code>.
+        </p>
+        <div class="linha">
+          <figure>
+            <Botao>Ver como funciona<IconeSeta slot="icone-fim" /></Botao>
+            <figcaption>Ícone no fim</figcaption>
+          </figure>
+          <figure>
+            <Botao variante="contorno"><IconeInstagram slot="icone" />Ver Instagram</Botao>
+            <figcaption>Ícone no início</figcaption>
+          </figure>
+          {
+            tamanhos.map(({ tamanho, nome }) => (
+              <figure>
+                <Botao variante="secundario" tamanho={tamanho} apenasIcone aria-label="Avançar">
+                  <IconeSeta />
+                </Botao>
+                <figcaption>Só ícone: {nome.toLowerCase()}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+
+        <h3>Largura total</h3>
+        <p class="nota">Com <code>bloco</code> o botão ocupa toda a coluna. Útil em cards e no celular.</p>
+        <div class="coluna-bloco">
+          <Botao bloco>Pedir orçamento</Botao>
+          <Botao variante="contorno" bloco>Ver obras</Botao>
+        </div>
+
+        <h3>Por fundo</h3>
+        <p class="nota">
+          Não use o primário sobre laranja, porque ele some: ali a ação principal é o secundário. Sobre
+          preto, use <code>inverso</code> no secundário.
+        </p>
+        <ul class="fundos">
+          {
+            fundos.map((fundo) => (
+              <li class={`fundo ${fundo.classe}`}>
+                <p>{fundo.rotulo}</p>
+                <div class="pilha">
+                  {variantes
+                    .filter(({ variante }) => !(fundo.classe === 'fundo-laranja' && variante === 'primario'))
+                    .map(({ variante, nome }) => (
+                      <Botao variante={variante} tamanho="pequeno" inverso={fundo.classe === 'fundo-preto'}>
+                        {nome}
+                      </Botao>
+                    ))}
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+
+        <h3>Botão de WhatsApp: variações de texto</h3>
+        <p class="nota">
+          <code>BotaoWhatsapp.astro</code> usa <code>Botao</code> com a variante <code>whatsapp</code>, já
+          com o ícone e o aviso de nova aba. Os botões verdes abrem o WhatsApp.
+        </p>
+        <div class="linha">
+          <BotaoWhatsapp href={link} />
+          <BotaoWhatsapp href={link} rotulo="Consultar terrenos" />
+          <BotaoWhatsapp href={link} rotulo="(51) 9 8102-1579" />
+        </div>
+
+        <h3>Botão flutuante</h3>
+        <p class="nota">
+          <code>BotaoFlutuante.astro</code>. O botão real fica fixo no canto inferior direito desta página.
+        </p>
+        <div class="linha demo-flutuante">
+          <figure>
+            <BotaoFlutuante />
+            <figcaption>Normal</figcaption>
+          </figure>
+          <figure class="forcar-hover">
+            <BotaoFlutuante />
+            <figcaption>Mouse sobre</figcaption>
+          </figure>
+          <figure class="forcar-foco">
+            <BotaoFlutuante />
+            <figcaption>Foco do teclado</figcaption>
+          </figure>
+        </div>
+
+        <h3>Botões do cabeçalho e da galeria</h3>
+        <p class="nota">
+          "Pedir orçamento" está no cabeçalho desta página, em telas largas. "Menu" aparece na
+          seção Celular. "Fechar", "Anterior" e "Próxima" aparecem ao abrir uma galeria.
+        </p>
+      </section>
+
+      <section id="links" class="bloco" aria-labelledby="titulo-links">
+        <h2 id="titulo-links">Links</h2>
+        <div class="linha">
+          <figure>
+            <a class="link-seta" href="#botoes">Link de avanço entre seções</a>
+            <figcaption><code>.link-seta</code></figcaption>
+          </figure>
+          <figure>
+            <p>Texto com <a href="#botoes">link comum</a> no meio da frase.</p>
+            <figcaption>Link no texto</figcaption>
+          </figure>
+        </div>
+        <ul class="fundos fundos--dois">
+          <li class="fundo fundo-laranja">
+            <p>Atalho sobre laranja, usado no hero</p>
+            <a class="link-atalho" href="#links">Ainda não tenho terreno</a>
+          </li>
+          <li class="fundo fundo-laranja">
+            <p>Link sobre laranja, usado na faixa de orçamento</p>
+            <a class="link-faixa" href="#links">Outras formas de contato</a>
+          </li>
+        </ul>
+      </section>
+
+      <section id="etiquetas" class="bloco" aria-labelledby="titulo-etiquetas">
+        <h2 id="titulo-etiquetas">Etiquetas e marcadores</h2>
+        <div class="linha">
+          <figure>
+            <Pendente>a confirmar</Pendente>
+            <figcaption><code>Pendente.astro</code>: dado que falta confirmar</figcaption>
+          </figure>
+          <figure>
+            <span class="etiqueta">Dados ilustrativos</span>
+            <figcaption>Etiqueta dos projetos com dados fictícios</figcaption>
+          </figure>
+          <figure>
+            <span class="numero">1</span>
+            <figcaption>Número das etapas</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="fotos" class="bloco" aria-labelledby="titulo-fotos">
+        <h2 id="titulo-fotos">Fotos e galeria</h2>
+
+        <h3>Espaço reservado para foto</h3>
+        <p class="nota"><code>EspacoFoto.astro</code>, com proporção ajustável.</p>
+        <ul class="grade-fotos">
+          <li><EspacoFoto legenda="Proporção 4 / 3 (padrão)" /></li>
+          <li><EspacoFoto legenda="Proporção 5 / 4 (hero)" proporcao="5 / 4" /></li>
+          <li><EspacoFoto legenda="Proporção 16 / 9" proporcao="16 / 9" /></li>
+        </ul>
+
+        <h3>Galeria</h3>
+        <p class="nota"><code>GaleriaObra.vue</code>. Clique em uma capa para abrir a janela de fotos.</p>
+        <ul class="grade-fotos">
+          <li class="caixa-galeria">
+            <GaleriaObra nome="Galeria com espaços reservados" fotos={fotosReservadas} client:visible />
+          </li>
+          <li class="caixa-galeria">
+            <GaleriaObra nome="Galeria com imagem real" fotos={fotosComImagem} client:visible />
+          </li>
+        </ul>
+      </section>
+
+      <section id="celular" class="bloco" aria-labelledby="titulo-celular">
+        <h2 id="titulo-celular">Celular</h2>
+        <p class="nota">A página inicial em 390px de largura. Use o botão Menu para ver o menu mobile.</p>
+        <iframe src="/" title="Página inicial na largura de um celular" width="390" height="680" loading="lazy"></iframe>
+      </section>
+
+      <div id="secoes" class="bloco bloco--secoes">
+        <h2>Seções</h2>
+        <p class="nota">Cada seção do site: primeiro a página inicial, depois a página de contato.</p>
+      </div>
+    </div>
+
+    {
+      secoes.map(({ arquivo, Componente }) => (
+        <>
+          <div class="container">
+            <p class="arquivo"><code>src/components/{arquivo}</code></p>
+          </div>
+          <Componente />
+        </>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .abertura {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 1rem;
+  }
+
+  .abertura p {
+    max-width: 44rem;
+    margin-top: 1rem;
+    color: var(--cinza-escuro);
+  }
+
+  code {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 0.875em;
+  }
+
+  .indice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .indice a {
+    display: inline-block;
+    padding-block: 0.375rem;
+    font-weight: 600;
+    text-decoration-color: var(--laranja);
+    text-underline-offset: 0.3em;
+  }
+
+  .bloco {
+    padding-block: clamp(2rem, 5vw, 3rem);
+    border-top: 1px solid var(--cinza-linha);
+  }
+
+  .bloco--secoes {
+    padding-bottom: 0;
+  }
+
+  .bloco h3 {
+    margin-block: 2rem 0.75rem;
+  }
+
+  .nota {
+    max-width: 44rem;
+    margin-block: 0.5rem 1rem;
+    color: var(--cinza-escuro);
+  }
+
+  .bloco > h2 + .linha {
+    margin-top: 1.25rem;
+  }
+
+  .bloco h3 + .nota {
+    margin-top: 0;
+  }
+
+  .grade-tokens {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: 1.5rem 1.25rem;
+  }
+
+  .amostra {
+    display: grid;
+    align-content: start;
+    gap: 0.125rem;
+    font-size: 0.875rem;
+  }
+
+  .cor,
+  .forma {
+    display: block;
+    height: 4.5rem;
+    margin-bottom: 0.625rem;
+    border: 1px solid var(--cinza-linha);
+    border-radius: var(--raio);
+  }
+
+  .forma {
+    border: 0;
+    background: var(--fundo-claro);
+  }
+
+  .forma--sombra {
+    border-radius: var(--raio-grande);
+    background: var(--branco);
+  }
+
+  .valor,
+  .uso {
+    color: var(--cinza-escuro);
+  }
+
+  .valor {
+    overflow-wrap: anywhere;
+  }
+
+  .lista-medidas {
+    display: grid;
+    gap: 0.375rem;
+    font-size: 0.9375rem;
+  }
+
+  .tipos {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+  }
+
+  .tipos dt {
+    color: var(--cinza-escuro);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .tipos dd {
+    margin: 0;
+  }
+
+  .t-1,
+  .t-2,
+  .t-3 {
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .t-1 {
+    font-size: clamp(2.25rem, 7vw, 3.75rem);
+    letter-spacing: -0.02em;
+  }
+
+  .t-2 {
+    font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+    letter-spacing: -0.01em;
+  }
+
+  .t-3 {
+    font-size: 1.25rem;
+  }
+
+  .t-apoio {
+    color: var(--cinza-escuro);
+  }
+
+  .t-pequeno {
+    color: var(--cinza-escuro);
+    font-size: 0.875rem;
+  }
+
+  .linha {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1.5rem 2rem;
+  }
+
+  .icones {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+    gap: 1.5rem 1rem;
+  }
+
+  .icones li {
+    display: grid;
+    justify-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .sobre-preto {
+    padding: 0.75rem;
+    border-radius: var(--raio);
+    background: var(--preto);
+    color: var(--branco);
+  }
+
+  .sobre-preto figcaption {
+    color: inherit;
+  }
+
+  .ilustracoes {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .ilustracoes li {
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .ilustracoes div {
+    padding: 2rem 1.5rem 0;
+    border-radius: var(--raio-grande);
+    background: var(--gradiente-creme);
+  }
+
+  .gradientes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 2rem 1.5rem;
+  }
+
+  .gradientes li {
+    display: grid;
+    align-content: start;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .gradiente {
+    display: grid;
+    gap: 0.125rem;
+    margin-bottom: 0.5rem;
+    padding: 2.5rem 1.25rem 1.25rem;
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra-pequena);
+  }
+
+  .gradiente strong {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hierarquia li {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--cinza-linha);
+  }
+
+  .hierarquia li:first-child {
+    border-top: 0;
+  }
+
+  .hierarquia code {
+    font-size: 0.8125rem;
+  }
+
+  .hierarquia p {
+    color: var(--cinza-escuro);
+    font-size: 0.9375rem;
+  }
+
+  .rolagem {
+    overflow-x: auto;
+  }
+
+  .estados {
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  .estados th,
+  .estados td {
+    padding: 0.625rem 1.5rem 0.625rem 0.5rem;
+    text-align: left;
+  }
+
+  .estados thead th {
+    color: var(--cinza-escuro);
+    font-weight: 600;
+  }
+
+  .coluna-bloco {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 22rem;
+  }
+
+  .pilha {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  figure {
+    display: grid;
+    justify-items: start;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  figcaption {
+    color: var(--cinza-escuro);
+    font-size: 0.8125rem;
+  }
+
+  /* Estados mostrados de forma fixa, com os mesmos tokens dos componentes */
+  .forcar-hover :global(.botao) {
+    background: var(--b-fundo-hover);
+  }
+
+  .forcar-hover :global(.botao:not(.link)) {
+    scale: 1.03;
+  }
+
+  .forcar-hover :global(.flutuante) {
+    background: var(--whatsapp-medio);
+    scale: 1.08;
+  }
+
+  .forcar-foco :global(.botao),
+  .forcar-foco :global(.flutuante) {
+    outline: 3px solid var(--foco);
+    outline-offset: 3px;
+  }
+
+  .forcar-foco :global(.flutuante) {
+    box-shadow: 0 0 0 3px var(--branco);
+  }
+
+  .demo-flutuante :global(.flutuante) {
+    position: static;
+  }
+
+  .fundos {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .fundo {
+    display: grid;
+    justify-items: start;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--cinza-linha);
+    border-radius: var(--raio-grande);
+    font-size: 0.875rem;
+  }
+
+  .fundo-branco {
+    background: var(--branco);
+  }
+
+  .fundo-claro {
+    background: var(--fundo-claro);
+  }
+
+  .fundo-laranja {
+    border-color: transparent;
+    background: var(--gradiente-laranja) border-box;
+    color: var(--preto);
+  }
+
+  .fundo-preto {
+    --foco: var(--branco);
+    border-color: var(--preto);
+    background: var(--preto);
+    color: var(--branco);
+  }
+
+  .fundos--dois {
+    margin-top: 1.5rem;
+  }
+
+  .link-atalho {
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .link-faixa {
+    font-size: 1rem;
+    font-weight: 600;
+    text-underline-offset: 0.3em;
+  }
+
+  .etiqueta {
+    color: var(--cinza-escuro);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .numero {
+    display: grid;
+    place-items: center;
+    width: 1.625rem;
+    height: 1.625rem;
+    border-radius: 50%;
+    background: var(--laranja);
+    color: var(--preto);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .grade-fotos {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .caixa-galeria {
+    overflow: hidden;
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra);
+  }
+
+  iframe {
+    display: block;
+    max-width: 100%;
+    border: 1px solid var(--cinza-linha);
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra);
+  }
+
+  .arquivo {
+    padding-block: 2rem 0.75rem;
+    color: var(--cinza-escuro);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 40rem) {
+    .fundos {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .ilustracoes {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hierarquia li {
+      grid-template-columns: 11rem 13rem 1fr;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .fundos:not(.fundos--dois) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .grade-fotos {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

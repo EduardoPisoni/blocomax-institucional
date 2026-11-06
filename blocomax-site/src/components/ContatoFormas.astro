@@ -1,0 +1,112 @@
+---
+import SeloIcone from './SeloIcone.astro';
+import { empresa, socios } from '../data/site';
+import type { NomeIcone } from '../data/icones';
+
+interface Forma {
+  icone: NomeIcone;
+  rotulo: string;
+  valor: string;
+  href?: string;
+  detalhe?: string;
+}
+
+const formas: Forma[] = [
+  { icone: 'telefone', rotulo: 'Telefone', valor: empresa.telefoneExibicao, href: empresa.telefoneLink, detalhe: 'Contato principal da empresa' },
+  ...socios.map((socio) => ({
+    icone: 'pessoa' as const,
+    rotulo: socio.nome,
+    valor: socio.telefoneExibicao,
+    href: socio.telefoneLink,
+    detalhe: 'Sócio da Blocomax',
+  })),
+  { icone: 'email', rotulo: 'E-mail', valor: empresa.email, href: `mailto:${empresa.email}` },
+  { icone: 'relogio', rotulo: 'Horário de atendimento', valor: empresa.horario },
+  { icone: 'local', rotulo: 'Onde estamos', valor: empresa.cidade, detalhe: 'Atendemos a região' },
+];
+---
+<section class="secao secao--clara" aria-labelledby="titulo-formas">
+  <div class="container">
+    <div class="titulo-secao">
+      <h2 id="titulo-formas">Outras formas de contato</h2>
+      <p>Prefere ligar ou mandar um e-mail? Fale com a gente por aqui.</p>
+    </div>
+
+    <ul class="formas">
+      {
+        formas.map((forma) => (
+          <li class="forma card-elevavel">
+            <SeloIcone nome={forma.icone} />
+            <h3>{forma.rotulo}</h3>
+            <p class="valor">{forma.href ? <a href={forma.href}>{forma.valor}</a> : forma.valor}</p>
+            {forma.detalhe && <p class="detalhe">{forma.detalhe}</p>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .formas {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .forma {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    border-radius: var(--raio-grande);
+    background: var(--branco);
+  }
+
+  .forma :global(.selo) {
+    margin-bottom: 0.25rem;
+  }
+
+  h3 {
+    color: var(--cinza-escuro);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .valor {
+    font-size: 1.1875rem;
+    font-weight: 700;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .valor a {
+    display: inline-block;
+    padding-block: 0.25rem;
+    text-decoration-color: var(--laranja);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+
+  .detalhe {
+    color: var(--cinza-escuro);
+    font-size: 0.9375rem;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .forma:hover :global(.selo) {
+      scale: 1.08;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .formas {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .formas {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

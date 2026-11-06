@@ -1,0 +1,233 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Variante = 'primario' | 'secundario' | 'suave' | 'contorno' | 'fantasma' | 'link' | 'whatsapp';
+type Tamanho = 'pequeno' | 'medio' | 'grande';
+
+interface Props extends Omit<HTMLAttributes<'a'> & HTMLAttributes<'button'>, 'disabled'> {
+  variante?: Variante;
+  tamanho?: Tamanho;
+  /** Só muda o secundário: use sobre fundo preto. */
+  inverso?: boolean;
+  /** Ocupa toda a largura disponível. */
+  bloco?: boolean;
+  /** Botão quadrado, só com ícone: exige aria-label. */
+  apenasIcone?: boolean;
+  desabilitado?: boolean;
+  carregando?: boolean;
+}
+
+const {
+  variante = 'primario',
+  tamanho = 'medio',
+  inverso = false,
+  bloco = false,
+  apenasIcone = false,
+  desabilitado = false,
+  carregando = false,
+  href,
+  class: classe,
+  ...resto
+} = Astro.props;
+
+// Com href vira link. Link não tem estado desabilitado, então o inativo é sempre <button>.
+const inativo = desabilitado || carregando;
+const Tag = href && !inativo ? 'a' : 'button';
+const atributos = Tag === 'a' ? { href } : { type: 'button' as const, disabled: inativo };
+---
+<Tag
+  class:list={['botao', variante, tamanho, classe, { inverso, bloco, 'apenas-icone': apenasIcone }]}
+  aria-busy={carregando ? 'true' : undefined}
+  {...atributos}
+  {...resto}
+>
+  {carregando ? <span class="giro" aria-hidden="true" /> : <slot name="icone" />}
+  <slot />
+  <slot name="icone-fim" />
+</Tag>
+
+<style>
+  /*
+   * Cada variante só define --b-*. Assim /estilos consegue mostrar o estado de
+   * mouse sobre usando o mesmo valor do componente.
+   */
+  .botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3.25rem;
+    padding: 0.75rem 1.5rem;
+    border: 0;
+    border-radius: var(--raio);
+    background: var(--b-fundo);
+    color: var(--b-texto);
+    box-shadow: var(--b-sombra, none);
+    font: inherit;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s, scale var(--transicao);
+  }
+
+  .botao:hover:enabled,
+  a.botao:hover {
+    background: var(--b-fundo-hover);
+  }
+
+  /* Cresce em vez de subir: assim o botão não treme com o mouse na borda */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .botao:not(.link):hover:enabled,
+    a.botao:not(.link):hover {
+      scale: 1.03;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .botao:not(.link):active:enabled,
+    a.botao:not(.link):active {
+      scale: 0.98;
+    }
+  }
+
+  .botao:disabled {
+    opacity: 0.5;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  .botao[aria-busy='true'] {
+    opacity: 0.75;
+    cursor: progress;
+  }
+
+  /* Hierarquia, da maior para a menor ênfase */
+  .primario {
+    --b-fundo: var(--gradiente-laranja);
+    --b-fundo-hover: var(--gradiente-laranja-hover);
+    --b-texto: var(--preto);
+    --b-sombra: var(--sombra-pequena);
+  }
+
+  .secundario {
+    --b-fundo: var(--preto);
+    --b-fundo-hover: var(--cinza-escuro);
+    --b-texto: var(--branco);
+    --b-sombra: var(--sombra-pequena);
+  }
+
+  .secundario.inverso {
+    --b-fundo: var(--branco);
+    --b-fundo-hover: var(--laranja-claro);
+    --b-texto: var(--preto);
+  }
+
+  .suave {
+    --b-fundo: var(--laranja-claro);
+    --b-fundo-hover: var(--laranja-claro-hover);
+    --b-texto: var(--laranja-mais-escuro);
+  }
+
+  /* Contorno, fantasma e link herdam a cor do texto, então servem em qualquer fundo */
+  .contorno,
+  .fantasma,
+  .link {
+    --b-fundo: transparent;
+    --b-fundo-hover: color-mix(in srgb, currentcolor 12%, transparent);
+    --b-texto: currentcolor;
+  }
+
+  .contorno {
+    --b-sombra: inset 0 0 0 2px currentcolor;
+  }
+
+  .link {
+    --b-fundo-hover: transparent;
+    min-height: 0;
+    padding: 0.5rem 0;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  .link:hover {
+    text-decoration-thickness: 3px;
+  }
+
+  /* Fora da hierarquia: verde só em botões que abrem o WhatsApp */
+  .whatsapp {
+    --b-fundo: var(--whatsapp);
+    --b-fundo-hover: var(--whatsapp-hover);
+    --b-texto: var(--branco);
+    --b-sombra: var(--sombra-pequena);
+  }
+
+  .whatsapp :global(svg) {
+    flex: none;
+    color: var(--whatsapp-claro);
+  }
+
+  /* Tamanhos: o pequeno ainda tem 44px de altura para o toque */
+  .pequeno {
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+  }
+
+  .grande {
+    gap: 0.75rem;
+    min-height: 3.75rem;
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+
+  .link.pequeno,
+  .link.grande {
+    min-height: 0;
+    padding-inline: 0;
+  }
+
+  .bloco {
+    display: flex;
+    width: 100%;
+  }
+
+  .apenas-icone {
+    width: 3.25rem;
+    padding: 0;
+  }
+
+  .apenas-icone.pequeno {
+    width: 2.75rem;
+  }
+
+  .apenas-icone.grande {
+    width: 3.75rem;
+  }
+
+  .giro {
+    flex: none;
+    width: 1.125em;
+    height: 1.125em;
+    border: 2px solid currentcolor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: girar 0.7s linear infinite;
+  }
+
+  @keyframes girar {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .giro {
+      animation-duration: 3s;
+    }
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+/** Marca um dado que falta confirmar. Remover cada uso quando o dado real chegar. */
+---
+<span class="pendente"><slot /></span>
+
+<style>
+  .pendente {
+    padding: 0.05rem 0.4rem;
+    border: 1px dashed var(--cinza-escuro);
+    border-radius: var(--raio);
+    background: var(--laranja-claro);
+    color: var(--preto);
+    font-size: 0.9em;
+    font-weight: 600;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+</style>

@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import ContatoFormas from '../components/ContatoFormas.astro';
+import ContatoInstagram from '../components/ContatoInstagram.astro';
+import ContatoWhatsapp from '../components/ContatoWhatsapp.astro';
+import { empresa } from '../data/site';
+---
+<Base
+  titulo={`Contato e orçamento | ${empresa.nome}`}
+  descricao={`Peça seu orçamento pelo WhatsApp ${empresa.telefoneExibicao}. Veja também telefone, e-mail, horário e Instagram da ${empresa.nome}, em ${empresa.cidade}.`}
+>
+  <ContatoWhatsapp />
+  <ContatoFormas />
+  <ContatoInstagram />
+</Base>

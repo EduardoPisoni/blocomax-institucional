@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import Botao from './Botao.astro';
+import MenuMobile from './MenuMobile.vue';
+import { empresa, mensagens, navegacao, whatsappLink } from '../data/site';
+
+const rota = Astro.url.pathname.replace(/\/$/, '');
+const itens = navegacao.map((item) => ({ ...item, atual: item.href === rota }));
+---
+<header class="cabecalho">
+  <div class="container barra">
+    <a class="marca" href="/" aria-label={`${empresa.nome}: voltar ao início`}>
+      <Image src={logo} alt="" height={56} densities={[1, 2]} loading="eager" />
+    </a>
+
+    <nav class="nav-desktop" aria-label="Menu principal">
+      <ul>
+        {itens.map((item) => <li><a href={item.href} aria-current={item.atual ? 'page' : undefined}>{item.rotulo}</a></li>)}
+      </ul>
+      <Botao tamanho="pequeno" href={whatsappLink(mensagens.geral)} target="_blank" rel="noopener">
+        <span>Pedir orçamento<span class="so-leitor"> pelo WhatsApp (abre em nova aba)</span></span>
+      </Botao>
+    </nav>
+
+    <div class="nav-mobile">
+      <MenuMobile itens={itens} client:media="(max-width: 59.99rem)" />
+    </div>
+  </div>
+</header>
+
+<style>
+  .cabecalho {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+    background: var(--branco);
+    box-shadow: var(--sombra-pequena);
+  }
+
+  .barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 4.5rem;
+    padding-block: 0.5rem;
+  }
+
+  .marca {
+    flex: none;
+  }
+
+  .marca img {
+    width: auto;
+    height: 3.5rem;
+  }
+
+  .nav-desktop {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-desktop ul {
+    display: flex;
+    gap: 1.75rem;
+  }
+
+  .nav-desktop li a {
+    padding-block: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: underline transparent 2px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color var(--transicao), text-underline-offset var(--transicao);
+  }
+
+  .nav-desktop li a:hover,
+  .nav-desktop li a[aria-current='page'] {
+    text-decoration-color: var(--laranja);
+    text-underline-offset: 0.4em;
+  }
+
+  @media (min-width: 60rem) {
+    .nav-desktop {
+      display: flex;
+    }
+
+    .nav-mobile {
+      display: none;
+    }
+  }
+</style>

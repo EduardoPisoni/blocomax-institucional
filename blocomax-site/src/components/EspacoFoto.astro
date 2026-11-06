@@ -1,0 +1,19 @@
+---
+interface Props {
+  legenda: string;
+  proporcao?: string;
+}
+const { legenda, proporcao = '4 / 3' } = Astro.props;
+---
+<div class="moldura" style={{ aspectRatio: proporcao }}>
+  <div class="espaco-foto" role="img" aria-label={`Espaço reservado para foto: ${legenda}`}>
+    <span>{legenda}</span>
+  </div>
+</div>
+
+<style>
+  .moldura {
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra);
+  }
+</style>
