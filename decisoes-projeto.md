@@ -7,7 +7,7 @@ Complementa `briefing-site-institucional.md`. Em caso de conflito, vale este arq
 - Astro + Vue: seções em componentes `.astro`; Vue só nas partes interativas (galeria, menu mobile).
 - Hospedagem no Firebase Hosting, com repositório privado `EduardoPisoni/blocomax-institucional` no GitHub (conta pessoal, host SSH `github-personal`). A raiz do repositório é a pasta do projeto, com o site em `blocomax-site/`.
 - Por enquanto é só um ambiente de testes: cada push na `main` publica o site, e o cabeçalho `X-Robots-Tag: noindex` em `firebase.json` o mantém fora dos buscadores. Remover esse cabeçalho na publicação oficial.
-- ID sugerido para o projeto Firebase: `blocomax-site` (não pode ser alterado depois).
+- Projeto Firebase: `blocomax-institucional`.
 
 ## Escopo do MVP
 

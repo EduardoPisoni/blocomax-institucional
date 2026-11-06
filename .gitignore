@@ -5,3 +5,8 @@ firebase-debug.log*
 # variáveis de ambiente
 .env
 .env.*
+
+# skills instaladas pela CLI do Firebase
+.agents/
+.claude/
+skills-lock.json

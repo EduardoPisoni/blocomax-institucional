@@ -47,7 +47,7 @@ Para achar os marcadores, busque por `Pendente` em `src/`.
 Cada push na `main` gera o site e publica no Firebase Hosting, pelo arquivo
 `.github/workflows/deploy-testes.yml` na raiz do repositório.
 
-Por enquanto é um ambiente de testes, em https://blocomax-site.web.app. O cabeçalho
+Por enquanto é um ambiente de testes, em https://blocomax-institucional.web.app. O cabeçalho
 `X-Robots-Tag: noindex` em `firebase.json` o mantém fora dos buscadores: remova-o na publicação oficial.
 
 Antes de ativar o Google Analytics, publique a política de privacidade e o aviso de cookies (LGPD).
