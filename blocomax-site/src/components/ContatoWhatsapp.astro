@@ -10,7 +10,7 @@ const dicas = [
 ---
 <section class="secao" aria-labelledby="titulo-whatsapp">
   <div class="container grade">
-    <div>
+    <div class="revelar revelar--esquerda">
       <h1 id="titulo-whatsapp">Peça seu orçamento pelo WhatsApp</h1>
       <p class="apoio">
         É o <strong>jeito mais prático</strong> de falar com a gente. O botão abre a conversa com a mensagem pronta,
@@ -21,7 +21,7 @@ const dicas = [
       </p>
     </div>
 
-    <div class="dicas">
+    <div class="dicas revelar revelar--direita">
       <h2>O que você pode nos contar</h2>
       <ul>
         {dicas.map((dica) => <li>{dica}</li>)}

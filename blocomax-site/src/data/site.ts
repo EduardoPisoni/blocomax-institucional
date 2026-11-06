@@ -142,8 +142,8 @@ export const projetos: Projeto[] = [
     nome: 'Sobrado em terreno estreito',
     cidade: 'Taquara/RS',
     tipo: 'Sobrado em alvenaria',
-    area: '150 m²',
-    quartos: '3 quartos, 1 suíte',
+    area: '75 m²',
+    quartos: '2 quartos',
     resumo: 'Dois pavimentos para aproveitar um terreno estreito, com volumes escuros na fachada e uma janela alta de vidro.',
     fotos: [
       {

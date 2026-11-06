@@ -5,7 +5,7 @@ import { empresa } from '../data/site';
 ---
 <section class="secao" aria-labelledby="titulo-instagram">
   <div class="container grade">
-    <div>
+    <div class="revelar revelar--esquerda">
       <h2 id="titulo-instagram">Acompanhe nossas obras no Instagram</h2>
       <p class="apoio">Veja de perto o nosso trabalho em {empresa.instagramUsuario}.</p>
       <a class="seguir" href={empresa.instagramUrl} target="_blank" rel="noopener">
@@ -14,7 +14,7 @@ import { empresa } from '../data/site';
       </a>
     </div>
 
-    <ul class="publicacoes">
+    <ul class="publicacoes revelar">
       <li><EspacoFoto legenda="Publicação" proporcao="1 / 1" /></li>
       <li><EspacoFoto legenda="Publicação" proporcao="1 / 1" /></li>
       <li><EspacoFoto legenda="Publicação" proporcao="1 / 1" /></li>

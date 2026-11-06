@@ -178,6 +178,59 @@ a {
 }
 
 /*
+ * Elementos que surgem ao entrar na tela. O script em Base.astro põe .js no <html> e
+ * .visivel em cada elemento. Sem JavaScript, ao imprimir ou com redução de movimento,
+ * tudo fica visível desde o início. --ordem atrasa cada item de uma lista.
+ * Usa transform: o translate fica livre para o mouse sobre dos cards.
+ */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .js .revelar:not(.visivel) {
+    opacity: 0;
+  }
+
+  .revelar.visivel {
+    animation: surgir 0.6s ease-out both;
+    animation-delay: calc(var(--ordem, 0) * var(--passo-revelar, 0ms));
+  }
+
+  .revelar--esquerda.visivel {
+    animation-name: surgir-esquerda;
+  }
+
+  .revelar--direita.visivel {
+    animation-name: surgir-direita;
+  }
+
+  /* Em uma coluna os itens entram um por vez, então o atraso só faria esperar */
+  @media (min-width: 40rem) {
+    :root {
+      --passo-revelar: 100ms;
+    }
+  }
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+@keyframes surgir-esquerda {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+}
+
+@keyframes surgir-direita {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+}
+
+/*
  * Card que sobe com o mouse sobre. Movimento só com mouse e sem redução de movimento.
  * Para mudar a sombra de um card, use estas variáveis: um box-shadow no componente
  * tem a mesma força do :hover daqui e anularia o efeito.

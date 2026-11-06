@@ -4,7 +4,7 @@ import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
 ---
 <section id="cidades" class="secao secao--clara" aria-labelledby="titulo-cidades">
   <div class="container grade">
-    <div>
+    <div class="revelar">
       <h2 id="titulo-cidades">Onde atendemos</h2>
       <p class="apoio">A Blocomax fica em <strong>{empresa.cidade}</strong> e atende a região.</p>
       <div class="fora-da-lista">
@@ -13,7 +13,7 @@ import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
       </div>
     </div>
     <ul>
-      {cidades.map((cidade) => <li>{cidade}</li>)}
+      {cidades.map((cidade, indice) => <li class="revelar" style={`--ordem: ${indice}`}>{cidade}</li>)}
     </ul>
   </div>
 </section>

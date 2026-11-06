@@ -37,6 +37,7 @@ Complementa `briefing-site-institucional.md`. Em caso de conflito, vale este arq
 - Gradientes: variáveis `--gradiente-*` em `src/styles/global.css`, cada uma com a cor de texto indicada no comentário e contraste mínimo de 4,5:1 em toda a transição. `--gradiente-whatsapp` só em elementos que abrem o WhatsApp.
 - Hero: a partir de 60rem de largura ocupa a primeira tela inteira, descontando o cabeçalho, com teto de 60rem de altura. A foto encolhe conforme a altura da tela para a faixa de caminhos caber. No celular a altura segue o conteúdo.
 - Efeitos de mouse sobre: cards usam a classe global `.card-elevavel`, que sobe 4px e reforça a sombra; botões crescem em vez de subir. Movimento só dentro de `@media (hover: hover) and (prefers-reduced-motion: no-preference)`. Card com `.card-elevavel` não pode ter `overflow: hidden`: quem recorta os cantos é o conteúdo.
+- Animações: elementos com a classe global `.revelar` surgem ao entrar na tela, com `--ordem` para atrasar itens de lista. Usam `transform`, porque `translate` é do hover dos cards. Sem JavaScript, ao imprimir ou com redução de movimento, tudo fica visível. Nada se move sem parar: o botão flutuante faz três ondas e para.
 - As cores ficam em `src/styles/global.css`. Destaques em laranja: variáveis `--acao`. Botões de WhatsApp: variáveis `--whatsapp`.
 
 ## Pendências

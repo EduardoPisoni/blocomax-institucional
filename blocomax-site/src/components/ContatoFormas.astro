@@ -27,15 +27,15 @@ const formas: Forma[] = [
 ---
 <section class="secao secao--clara" aria-labelledby="titulo-formas">
   <div class="container">
-    <div class="titulo-secao">
+    <div class="titulo-secao revelar">
       <h2 id="titulo-formas">Outras formas de contato</h2>
       <p>Prefere ligar ou mandar um e-mail? Fale com a gente por aqui.</p>
     </div>
 
     <ul class="formas">
       {
-        formas.map((forma) => (
-          <li class="forma card-elevavel">
+        formas.map((forma, indice) => (
+          <li class="forma card-elevavel revelar" style={`--ordem: ${indice}`}>
             <SeloIcone nome={forma.icone} />
             <h3>{forma.rotulo}</h3>
             <p class="valor">{forma.href ? <a href={forma.href}>{forma.valor}</a> : forma.valor}</p>

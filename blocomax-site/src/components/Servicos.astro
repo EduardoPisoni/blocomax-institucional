@@ -6,13 +6,13 @@ import { mensagens, whatsappLink } from '../data/site';
 ---
 <section id="servicos" class="secao secao--clara" aria-labelledby="titulo-servicos">
   <div class="container">
-    <div class="titulo-secao">
+    <div class="titulo-secao revelar">
       <h2 id="titulo-servicos">O que a Blocomax faz por você</h2>
       <p>Você pode contratar só a obra ou resolver tudo em um lugar só: <strong>terreno, projeto e construção</strong>.</p>
     </div>
 
     <div class="colunas">
-      <article id="construcao" class="servico card-elevavel">
+      <article id="construcao" class="servico card-elevavel revelar">
         <div class="ilustracao"><IlustracaoConstrucao /></div>
         <h3>Construção</h3>
         <p>
@@ -30,7 +30,7 @@ import { mensagens, whatsappLink } from '../data/site';
         </Botao>
       </article>
 
-      <article id="incorporacao" class="servico card-elevavel">
+      <article id="incorporacao" class="servico card-elevavel revelar" style="--ordem: 1">
         <div class="ilustracao"><IlustracaoTerreno /></div>
         <h3>Incorporação</h3>
         <p>
@@ -129,6 +129,24 @@ import { mensagens, whatsappLink } from '../data/site';
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .servico:hover .ilustracao :global(svg) {
       scale: 1.04;
+    }
+
+    .servico:hover :global(.carga) {
+      animation: balancar 1.6s ease-in-out;
+    }
+  }
+
+  @keyframes balancar {
+    25% {
+      rotate: 6deg;
+    }
+
+    60% {
+      rotate: -4deg;
+    }
+
+    85% {
+      rotate: 2deg;
     }
   }
 

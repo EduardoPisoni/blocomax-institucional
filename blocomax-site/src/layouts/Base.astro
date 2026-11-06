@@ -69,6 +69,26 @@ const dadosEstruturados = {
     <meta property="og:image:height" content="630" />
 
     {indexar && <script type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)} />}
+
+    <!-- Inline: precisa rodar antes da primeira pintura, senão o conteúdo pisca. Ver .revelar em global.css -->
+    <script is:inline>
+      if ('IntersectionObserver' in window) {
+        document.documentElement.classList.add('js');
+        document.addEventListener('DOMContentLoaded', () => {
+          const observador = new IntersectionObserver(
+            (entradas) => {
+              for (const { isIntersecting, target } of entradas) {
+                if (!isIntersecting) continue;
+                target.classList.add('visivel');
+                observador.unobserve(target);
+              }
+            },
+            { rootMargin: '0px 0px -8% 0px' },
+          );
+          document.querySelectorAll('.revelar').forEach((elemento) => observador.observe(elemento));
+        });
+      }
+    </script>
   </head>
   <body>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>

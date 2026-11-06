@@ -39,6 +39,31 @@ import { mensagens, whatsappLink } from '../data/site';
     }
   }
 
+  /* Três ondas e para: movimento contínuo atrapalharia a leitura */
+  @media (prefers-reduced-motion: no-preference) {
+    .flutuante::after {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      content: '';
+      pointer-events: none;
+      opacity: 0;
+      animation: onda 1.8s ease-out 1.5s 3 backwards;
+    }
+  }
+
+  @keyframes onda {
+    from {
+      box-shadow: 0 0 0 0 var(--whatsapp-claro);
+      opacity: 0.6;
+    }
+
+    to {
+      box-shadow: 0 0 0 1.25rem var(--whatsapp-claro);
+      opacity: 0;
+    }
+  }
+
   .flutuante:focus-visible {
     outline-color: var(--preto);
     outline-offset: 3px;

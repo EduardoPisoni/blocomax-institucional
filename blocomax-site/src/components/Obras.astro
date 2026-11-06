@@ -5,16 +5,15 @@ import { mensagens, projetos, whatsappLink } from '../data/site';
 ---
 <section id="obras" class="secao secao--clara obras" aria-labelledby="titulo-obras">
   <div class="container">
-    <div class="titulo-secao">
-      <h2 id="titulo-obras">Exemplos de projetos</h2>
-      <!-- Remover este aviso e as etiquetas quando os dados reais entrarem em src/data/site.ts -->
-      <p>Áreas e demais dados são <strong>ilustrativos</strong> e serão atualizados em breve.</p>
+    <div class="titulo-secao revelar">
+      <h2 id="titulo-obras">Projetos Realizados</h2>
+      <p>Alguns dos <strong>projetos entregues recentemente</strong> pela Blocomax</p>
     </div>
 
     <ul class="projetos">
       {
-        projetos.map((projeto) => (
-          <li class="projeto card-elevavel">
+        projetos.map((projeto, indice) => (
+          <li class="projeto card-elevavel revelar" style={`--ordem: ${indice}`}>
             <GaleriaObra nome={projeto.nome} fotos={projeto.fotos} client:visible />
             <div class="corpo">
               <p class="etiqueta">Dados ilustrativos</p>

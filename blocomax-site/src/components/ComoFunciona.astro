@@ -4,7 +4,7 @@ import { passos } from '../data/site';
 ---
 <section id="como-funciona" class="secao" aria-labelledby="titulo-como-funciona">
   <div class="container">
-    <div class="titulo-secao">
+    <div class="titulo-secao revelar">
       <h2 id="titulo-como-funciona">Do terreno à entrega da chave</h2>
       <p>Construir pela primeira vez gera muitas dúvidas. Veja o caminho, <strong>etapa por etapa</strong>.</p>
     </div>
@@ -12,7 +12,7 @@ import { passos } from '../data/site';
     <ol class="passos">
       {
         passos.map((passo, indice) => (
-          <li>
+          <li class="revelar" style={`--ordem: ${indice}`}>
             <div class="marca">
               <SeloIcone nome={passo.icone} />
               <span class="numero" aria-hidden="true">{indice + 1}</span>

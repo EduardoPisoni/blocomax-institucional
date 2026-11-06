@@ -13,18 +13,19 @@ const caminhos: { href: string; icone: NomeIcone; titulo: string; texto: string 
 <section class="hero">
   <div class="container grade">
     <div class="texto">
-      <h1>{empresa.slogan}</h1>
-      <p class="apoio">
+      <h1 class="revelar">{empresa.slogan}</h1>
+      <p class="apoio revelar" style="--ordem: 1">
         Construímos <strong>casas de alvenaria</strong> em {empresa.cidade} e região. Se faltar o
         terreno ou o projeto, <strong>resolvemos isso junto com você</strong>.
       </p>
-      <div class="acoes">
+      <div class="acoes revelar" style="--ordem: 2">
         <BotaoWhatsapp href={whatsappLink(mensagens.geral)} />
         <a class="link-seta" href="#como-funciona">Entender como funciona</a>
       </div>
     </div>
     <img
-      class="foto"
+      class="foto revelar revelar--direita"
+      style="--ordem: 1"
       src="/fotos/casa1.webp"
       alt="Casa concluída pela Blocomax, com varanda de madeira e telhado de cerâmica"
       width="1080"
@@ -36,8 +37,8 @@ const caminhos: { href: string; icone: NomeIcone; titulo: string; texto: string 
   <nav class="caminhos" aria-label="Por onde começar">
     <ul class="container lista">
       {
-        caminhos.map((caminho) => (
-          <li>
+        caminhos.map((caminho, indice) => (
+          <li class="revelar" style={`--ordem: ${indice + 3}`}>
             <a href={caminho.href}>
               <SeloIcone nome={caminho.icone} />
               <div class="atalho">
