@@ -16,7 +16,7 @@ import { mensagens, projetos, whatsappLink } from '../data/site';
           <li class="projeto card-elevavel revelar" style={`--ordem: ${indice}`}>
             <GaleriaObra nome={projeto.nome} fotos={projeto.fotos} client:visible />
             <div class="corpo">
-              <p class="etiqueta">Dados ilustrativos</p>
+              <p class="etiqueta">Finalizada em {projeto.finalizada}</p>
               <h3>{projeto.nome}</h3>
               <p>{projeto.resumo}</p>
               <dl>

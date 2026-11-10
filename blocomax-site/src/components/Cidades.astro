@@ -6,7 +6,7 @@ import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
   <div class="container grade">
     <div class="revelar">
       <h2 id="titulo-cidades">Onde atendemos</h2>
-      <p class="apoio">A Blocomax fica em <strong>{empresa.cidade}</strong> e atende a região.</p>
+      <p class="apoio">A Blocomax fica em <strong>{empresa.cidade}</strong> e atende a <strong>toda a região</strong>.</p>
       <div class="fora-da-lista">
         <p>Sua cidade não está na lista?</p>
         <BotaoWhatsapp href={whatsappLink(mensagens.geral)} rotulo="Pergunte pelo WhatsApp" />
@@ -14,6 +14,7 @@ import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
     </div>
     <ul>
       {cidades.map((cidade, indice) => <li class="revelar" style={`--ordem: ${indice}`}>{cidade}</li>)}
+      <li class="revelar regiao" style={`--ordem: ${cidades.length}`}>e toda a região</li>
     </ul>
   </div>
 </section>
@@ -54,14 +55,20 @@ import { cidades, empresa, mensagens, whatsappLink } from '../data/site';
     transition: border-color var(--transicao), padding-left var(--transicao);
   }
 
+  .regiao {
+    border-bottom: 0;
+    color: var(--laranja-mais-escuro); /* --laranja não atinge 4,5:1 no fundo claro */
+    font-style: italic;
+  }
+
   @media (hover: hover) {
-    li:hover {
+    li:not(.regiao):hover {
       border-bottom-color: var(--laranja);
     }
   }
 
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    li:hover {
+    li:not(.regiao):hover {
       padding-left: 0.5rem;
     }
   }

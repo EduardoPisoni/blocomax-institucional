@@ -53,22 +53,22 @@ export const passos: { titulo: string; texto: string; icone: NomeIcone }[] = [
   {
     titulo: 'Conversa inicial',
     icone: 'conversa',
-    texto: 'Você conta pelo WhatsApp <strong>o que quer construir</strong>, onde e qual é o seu momento. Ainda não tem tudo definido? Sem problema.',
+    texto: 'Nos chame no Whatsapp <strong>para entendermos as suas ideias</strong>. Assim, <strong>avaliaremos juntos</strong> as possibilidades de projetos.',
   },
   {
     titulo: 'Terreno',
     icone: 'terreno',
-    texto: 'Se você já tem terreno, <strong>avaliamos juntos</strong>. Se ainda não tem, <strong>mostramos as opções</strong> que a Blocomax tem à venda.',
+    texto: 'Se você já tem terreno, <strong>incluiremos nas ideias de projetos</strong>. Se ainda não tem, <strong>mostramos as opções</strong> que a Blocomax tem à venda.',
   },
   {
     titulo: 'Projeto',
     icone: 'projeto',
-    texto: 'Nosso arquiteto parceiro desenha a casa de acordo com <strong>a sua família, o terreno e o seu orçamento</strong>.',
+    texto: 'Nosso arquiteto parceiro desenha o projeto de acordo com <strong>as suas necessidades, o terreno e o seu orçamento</strong>.',
   },
   {
     titulo: 'Orçamento e contrato',
     icone: 'contrato',
-    texto: 'Você recebe os valores e o que está incluído <strong>antes de decidir</strong>. Com tudo combinado, a obra entra na agenda.',
+    texto: 'Você sabe os valores e o que está incluído <strong>antes de decidir</strong>. Com tudo combinado, a obra entra na agenda.',
   },
   {
     titulo: 'Obra',
@@ -78,7 +78,7 @@ export const passos: { titulo: string; texto: string; icone: NomeIcone }[] = [
   {
     titulo: 'Entrega da chave',
     icone: 'chave',
-    texto: 'Vistoriamos a casa com você e <strong>entregamos a chave</strong>.',
+    texto: 'Vistoriamos a obra pronta com você e <strong>entregamos a chave</strong>.',
   },
 ];
 
@@ -93,6 +93,7 @@ export interface Foto {
 export interface Projeto {
   nome: string;
   cidade: string;
+  finalizada: string;
   tipo: string;
   area: string;
   quartos: string;
@@ -105,6 +106,7 @@ export const projetos: Projeto[] = [
   {
     nome: 'Casa térrea com varanda',
     cidade: 'Taquara/RS',
+    finalizada: '2025',
     tipo: 'Casa térrea em alvenaria',
     area: '85 m²',
     quartos: '2 quartos',
@@ -123,6 +125,7 @@ export const projetos: Projeto[] = [
   {
     nome: 'Casa com platibanda',
     cidade: 'Taquara/RS',
+    finalizada: '2026',
     tipo: 'Casa térrea em alvenaria',
     area: '70 m²',
     quartos: '2 quartos',
@@ -141,6 +144,7 @@ export const projetos: Projeto[] = [
   {
     nome: 'Sobrado em terreno estreito',
     cidade: 'Taquara/RS',
+    finalizada: '2026',
     tipo: 'Sobrado em alvenaria',
     area: '75 m²',
     quartos: '2 quartos',
